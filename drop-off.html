@@ -1,0 +1,1248 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Deep Analysis Report</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+        <style>
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                line-height: 1.6; 
+                margin: 0; 
+                padding: 20px; 
+                color: #374151; 
+                background-color: #f9fafb;
+            }
+            .container { max-width: 1400px; margin: 0 auto; }
+            .section { 
+                margin-bottom: 24px; 
+                padding: 32px; 
+                background: #ffffff; 
+                border-radius: 12px; 
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                border-left: 4px solid #FF7F7F;
+                page-break-inside: avoid;
+            }
+            h1 { 
+                color: #FF7F7F; 
+                font-size: 32px; 
+                margin-bottom: 12px; 
+                font-weight: 700;
+                page-break-after: avoid;
+            }
+            h2 { 
+                color: #FF7F7F; 
+                font-size: 24px; 
+                margin-bottom: 20px; 
+                font-weight: 600;
+                border-bottom: 2px solid #FF7F7F;
+                padding-bottom: 10px;
+                page-break-after: avoid;
+            }
+            h3 { color: #4b5563; font-size: 18px; margin-bottom: 14px; font-weight: 600; page-break-after: avoid; }
+            h4 { color: #6b7280; font-size: 16px; margin-bottom: 12px; font-weight: 600; page-break-after: avoid; }
+            .question-content { 
+                background: #FFF0F0; 
+                padding: 20px; 
+                border-radius: 8px; 
+                border-left: 3px solid #FF7F7F;
+                page-break-inside: avoid;
+            }
+            .synthesis-content { 
+                background: #f9fafb; 
+                padding: 24px; 
+                border-radius: 8px;
+                margin-bottom: 24px;
+                page-break-inside: avoid;
+            }
+            .visualization-container { 
+                margin: 24px 0; 
+                padding: 20px; 
+                background: #ffffff; 
+                border-radius: 8px; 
+                border: 1px solid #e5e7eb;
+                page-break-inside: avoid;
+            }
+            .code-section { 
+                background: #1f2937; 
+                color: #e5e7eb; 
+                border-radius: 8px; 
+                overflow: hidden;
+                margin: 20px 0;
+                position: relative;
+                page-break-inside: avoid;
+            }
+            .code-header { 
+                background: #FF7F7F; 
+                color: white; 
+                padding: 16px 20px; 
+                cursor: pointer; 
+                font-weight: 500;
+                user-select: none;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .code-header:hover { background: #FF6666; }
+            .code-controls { 
+                display: flex; 
+                gap: 12px; 
+                align-items: center; 
+            }
+            .copy-button { 
+                background: rgba(255, 255, 255, 0.2); 
+                border: none; 
+                color: white; 
+                padding: 8px 16px; 
+                border-radius: 6px; 
+                cursor: pointer; 
+                font-size: 14px;
+                transition: background 0.2s;
+            }
+            .copy-button:hover { background: rgba(255, 255, 255, 0.3); }
+            .copy-button.copied { background: #10b981; }
+            .code-content { 
+                padding: 0; 
+                max-height: 0; 
+                overflow: hidden; 
+                transition: max-height 0.3s ease;
+                position: relative;
+            }
+            .code-content.expanded { max-height: 1200px; overflow-y: auto; }
+            .code-content pre { 
+                margin: 0; 
+                padding: 20px;
+                white-space: pre-wrap; 
+                word-wrap: break-word; 
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                font-size: 14px;
+                line-height: 1.5;
+                background: #1f2937;
+            }
+            .code-content code {
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            .conclusion-content { 
+                background: linear-gradient(135deg, #FFF0F0 0%, #fdf2f8 100%); 
+                padding: 28px; 
+                border-radius: 8px; 
+                border: 1px solid #FF7F7F;
+                font-size: 16px;
+                line-height: 1.7;
+                page-break-inside: avoid;
+            }
+            /* Enhanced conclusion formatting */
+            .conclusion-content h1, .conclusion-content h2, .conclusion-content h3, .conclusion-content h4 {
+                color: #FF7F7F;
+                margin-top: 20px;
+                margin-bottom: 12px;
+                font-weight: 600;
+                page-break-after: avoid;
+            }
+            .conclusion-content h1 { font-size: 22px; }
+            .conclusion-content h2 { font-size: 18px; }
+            .conclusion-content h3 { font-size: 16px; }
+            .conclusion-content h4 { font-size: 14px; }
+            .conclusion-content ul { 
+                margin: 18px 0; 
+                padding-left: 28px;
+                list-style: none;
+                position: relative;
+                page-break-inside: avoid;
+            }
+            .conclusion-content ul li { 
+                margin-bottom: 12px; 
+                line-height: 1.7;
+                position: relative;
+                padding-left: 0;
+            }
+            .conclusion-content ul li:before {
+                content: "•";
+                color: #FF7F7F;
+                font-weight: bold;
+                position: absolute;
+                left: -24px;
+                font-size: 18px;
+            }
+            .conclusion-content ol {
+                margin: 18px 0; 
+                padding-left: 28px;
+                counter-reset: item;
+                page-break-inside: avoid;
+            }
+            .conclusion-content ol li {
+                margin-bottom: 12px; 
+                line-height: 1.7;
+                display: block;
+                position: relative;
+                padding-left: 0;
+            }
+            .conclusion-content ol li:before {
+                content: counter(item) ".";
+                counter-increment: item;
+                color: #FF7F7F;
+                font-weight: bold;
+                position: absolute;
+                left: -28px;
+            }
+            .conclusion-content p { 
+                margin-bottom: 18px; 
+                line-height: 1.7;
+            }
+            .conclusion-content strong { 
+                color: #FF7F7F; 
+                font-weight: 600; 
+            }
+            .conclusion-content em { 
+                font-style: italic; 
+                color: #6b7280;
+            }
+            .synthesis-section { margin-bottom: 18px; page-break-inside: avoid; }
+            .synthesis-section ul {
+                margin: 14px 0;
+                padding-left: 24px;
+                list-style-type: disc;
+            }
+            .synthesis-section ul li {
+                margin-bottom: 8px;
+                line-height: 1.6;
+                list-style-type: disc;
+                display: list-item;
+            }
+            p { margin-bottom: 14px; }
+            /* General list styling for other sections (not conclusion) */
+            ul:not(.conclusion-content ul) { 
+                margin-bottom: 18px; 
+                padding-left: 24px; 
+                list-style-type: disc;
+            }
+            ol:not(.conclusion-content ol) { 
+                margin-bottom: 18px; 
+                padding-left: 24px; 
+                list-style-type: decimal;
+            }
+            li:not(.conclusion-content li) { 
+                margin-bottom: 8px; 
+                line-height: 1.6;
+                display: list-item;
+            }
+            /* Syntax highlighting overrides - matching app's theme */
+            .hljs {
+                background: #1f2937 !important;
+                color: #e5e7eb !important;
+                padding: 20px !important;
+                border-radius: 0 !important;
+            }
+            .hljs-keyword { color: #f59e0b !important; }
+            .hljs-string { color: #10b981 !important; }
+            .hljs-number { color: #3b82f6 !important; }
+            .hljs-comment { color: #6b7280 !important; }
+            .hljs-function { color: #8b5cf6 !important; }
+            .hljs-built_in { color: #FF7F7F !important; }
+            
+            /* PDF/Print Specific Styles */
+            @media print {
+                body {
+                    background-color: white !important;
+                    padding: 8mm;
+                    font-size: 14pt;
+                    line-height: 1.5;
+                    color: #000 !important;
+                }
+                .container {
+                    max-width: none;
+                    margin: 0;
+                }
+                .section {
+                    background: white !important;
+                    box-shadow: none !important;
+                    border-radius: 0 !important;
+                    border-left: 2pt solid #FF7F7F !important;
+                    padding: 18pt;
+                    margin-bottom: 15pt;
+                    page-break-inside: avoid;
+                    margin-top: 0 !important;
+                    padding-top: 20pt !important;
+                }
+                /* Don't add page break before the first section */
+                .section:first-child {
+                    page-break-before: avoid;
+                    margin-top: 0 !important;
+                    padding-top: 18pt !important;
+                }
+                
+                /* Larger fonts for first page section */
+                .section:first-child h1 {
+                    font-size: 27pt !important;
+                    margin-bottom: 18pt;
+                }
+                .section:first-child h2 {
+                    font-size: 23pt !important;
+                    margin-bottom: 15pt;
+                }
+                .section:first-child .question-content {
+                    font-size: 16pt !important;
+                    line-height: 1.6;
+                    padding: 18pt;
+                }
+                .section:first-child .question-content p {
+                    font-size: 16pt !important;
+                    margin-bottom: 12pt;
+                }
+                
+                /* Hide code section completely in PDF */
+                .section:has(.code-section),
+                .section .code-section,
+                .code-section {
+                    display: none !important;
+                }
+                h1 {
+                    font-size: 24pt;
+                    color: #FF7F7F !important;
+                    page-break-after: avoid;
+                    margin-top: 0;
+                    margin-bottom: 15pt;
+                }
+                h2 {
+                    font-size: 20pt;
+                    color: #FF7F7F !important;
+                    page-break-after: avoid;
+                    border-bottom: 1pt solid #FF7F7F !important;
+                    margin-bottom: 12pt;
+                }
+                h3 {
+                    font-size: 16pt;
+                    color: #333 !important;
+                    page-break-after: avoid;
+                    margin-bottom: 10pt;
+                }
+                h4 {
+                    font-size: 14pt;
+                    color: #333 !important;
+                    page-break-after: avoid;
+                    margin-bottom: 10pt;
+                }
+                p {
+                    font-size: 13pt;
+                    margin-bottom: 10pt;
+                    line-height: 1.5;
+                }
+                .question-content {
+                    background: #f9f9f9 !important;
+                    border-left: 2pt solid #FF7F7F !important;
+                    border-radius: 0 !important;
+                    padding: 15pt;
+                    page-break-inside: avoid;
+                    font-size: 13pt;
+                }
+                .synthesis-content {
+                    background: #f9f9f9 !important;
+                    border: 1pt solid #ddd !important;
+                    border-radius: 0 !important;
+                    padding: 15pt;
+                    page-break-inside: avoid;
+                    font-size: 13pt;
+                }
+                .conclusion-content {
+                    background: #f9f9f9 !important;
+                    border: 1pt solid #FF7F7F !important;
+                    border-radius: 0 !important;
+                    padding: 18pt;
+                    page-break-inside: avoid;
+                    font-size: 16pt !important;
+                    line-height: 1.6;
+                }
+                
+                /* Larger fonts for conclusion section */
+                .conclusion-content h1 {
+                    font-size: 25pt !important;
+                    margin-bottom: 15pt;
+                }
+                .conclusion-content h2 {
+                    font-size: 21pt !important;
+                    margin-bottom: 12pt;
+                }
+                .conclusion-content h3 {
+                    font-size: 19pt !important;
+                    margin-bottom: 10pt;
+                }
+                .conclusion-content h4 {
+                    font-size: 17pt !important;
+                    margin-bottom: 10pt;
+                }
+                .conclusion-content p {
+                    font-size: 16pt !important;
+                    margin-bottom: 12pt;
+                    line-height: 1.6;
+                }
+                .conclusion-content ul li {
+                    font-size: 16pt !important;
+                    margin-bottom: 10pt;
+                    line-height: 1.6;
+                }
+                .conclusion-content ol li {
+                    font-size: 16pt !important;
+                    margin-bottom: 10pt;
+                    line-height: 1.6;
+                }
+                
+                /* Chart/Visualization specific rules */
+                .visualization-container {
+                    background: white !important;
+                    border: 1pt solid #ddd !important;
+                    border-radius: 0 !important;
+                    padding: 12pt;
+                    page-break-before: auto;
+                    page-break-after: auto;
+                    page-break-inside: avoid !important;
+                    margin: 12pt 0;
+                    max-height: none !important;
+                    height: auto !important;
+                    overflow: visible !important;
+                }
+                /* Plotly charts - ensure they don't break and fit properly */
+                .plotly-graph-div {
+                    page-break-inside: avoid !important;
+                    page-break-before: auto !important;
+                    page-break-after: auto !important;
+                    max-height: 60vh !important;
+                    max-width: 100% !important;
+                    height: auto !important;
+                    overflow: visible !important;
+                    margin: 6pt 0 !important;
+                }
+                /* If chart is too tall, allow it to take a full page */
+                .visualization-container:has(.plotly-graph-div) {
+                    page-break-before: auto;
+                    page-break-after: auto;
+                    page-break-inside: avoid;
+                    max-height: 85vh;
+                    overflow: visible;
+                }
+                /* Hide all code-related elements */
+                .code-section,
+                .code-header,
+                .code-content,
+                .code-controls,
+                .copy-button,
+                pre code,
+                .hljs {
+                    display: none !important;
+                }
+                /* Page breaks */
+                .section {
+                    page-break-before: always;
+                    page-break-after: auto;
+                    page-break-inside: avoid;
+                }
+                /* Ensure section headings don't get orphaned */
+                .section h2 {
+                    page-break-after: avoid;
+                    orphans: 2;
+                    widows: 2;
+                }
+                /* Better control for large content blocks */
+                .synthesis-content {
+                    orphans: 2;
+                    widows: 2;
+                }
+                /* Ensure tables don't break poorly */
+                .section table {
+                    page-break-inside: avoid;
+                    margin: 10pt 0;
+                    font-size: 12pt;
+                }
+                .section table th,
+                .section table td {
+                    padding: 6pt 10pt;
+                    font-size: 12pt;
+                }
+                /* List styling for PDF */
+                ul, ol {
+                    margin: 10pt 0;
+                    padding-left: 20pt;
+                }
+                li {
+                    margin-bottom: 6pt;
+                    font-size: 13pt;
+                    line-height: 1.5;
+                }
+                /* Conclusion specific styling */
+                .conclusion-content ul li:before {
+                    color: #FF7F7F !important;
+                }
+                .conclusion-content ol li:before {
+                    color: #FF7F7F !important;
+                }
+                .conclusion-content strong {
+                    color: #FF7F7F !important;
+                }
+            }
+            
+            /* Additional PDF optimization */
+            @page {
+                size: A4;
+                margin: 15mm 12mm 20mm 12mm;
+            }
+            
+            
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.highlightAll();
+                
+                // Add print-specific functionality
+                window.addEventListener('beforeprint', function() {
+                    // Ensure all Plotly graphs are visible and properly sized for printing
+                    const plotlyDivs = document.querySelectorAll('.plotly-graph-div');
+                    plotlyDivs.forEach(function(div) {
+                        if (window.Plotly && window.Plotly.Plots) {
+                            try {
+                                // Resize plot for print
+                                window.Plotly.Plots.resize(div);
+                            } catch (e) {
+                                console.log('Note: Could not resize plot for print:', e);
+                            }
+                        }
+                    });
+                    
+                    // Expand any collapsed code sections for PDF
+                    const codeContents = document.querySelectorAll('.code-content');
+                    codeContents.forEach(function(content) {
+                        content.classList.add('expanded');
+                    });
+                });
+                
+                // Add a small delay for plots to render when window loads
+                setTimeout(function() {
+                    const plotlyDivs = document.querySelectorAll('.plotly-graph-div');
+                    if (plotlyDivs.length > 0 && window.Plotly) {
+                        plotlyDivs.forEach(function(div) {
+                            try {
+                                window.Plotly.Plots.resize(div);
+                            } catch (e) {
+                                // Silent fail - plot may not be fully initialized yet
+                            }
+                        });
+                    }
+                }, 2000);
+            });
+
+            function toggleCode() {
+                const content = document.getElementById('codeContent');
+                const header = document.getElementById('codeToggle');
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    header.textContent = 'View Generated Code (Click to expand)';
+                } else {
+                    content.classList.add('expanded');
+                    header.textContent = 'Generated Code (Click to collapse)';
+                }
+            }
+
+            function copyCode() {
+                const codeElement = document.getElementById('rawCode');
+                const copyButton = document.getElementById('copyButton');
+                
+                if (codeElement) {
+                    const textToCopy = codeElement.textContent || codeElement.innerText;
+                    
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(textToCopy).then(function() {
+                            copyButton.textContent = 'Copied!';
+                            copyButton.classList.add('copied');
+                            setTimeout(function() {
+                                copyButton.textContent = 'Copy';
+                                copyButton.classList.remove('copied');
+                            }, 2000);
+                        }).catch(function(err) {
+                            console.error('Failed to copy: ', err);
+                            fallbackCopyTextToClipboard(textToCopy, copyButton);
+                        });
+                    } else {
+                        fallbackCopyTextToClipboard(textToCopy, copyButton);
+                    }
+                }
+            }
+
+            function fallbackCopyTextToClipboard(text, button) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.top = '0';
+                textArea.style.left = '0';
+                textArea.style.position = 'fixed';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        button.textContent = 'Copied!';
+                        button.classList.add('copied');
+                        setTimeout(function() {
+                            button.textContent = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    } else {
+                        button.textContent = 'Failed';
+                        setTimeout(function() {
+                            button.textContent = 'Copy';
+                        }, 2000);
+                    }
+                } catch (err) {
+                    button.textContent = 'Failed';
+                    setTimeout(function() {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                }
+                document.body.removeChild(textArea);
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+        <div class="section">
+                <h1>Deep Analysis Report</h1>
+                <h2>Original Question</h2>
+                <div class="question-content">
+                    <p>What's driving the drop in weekly active users?</p>
+<p>add visualizations</p>
+                </div>
+                
+                <h2>Detailed Research Questions</h2>
+                <div class="question-content">
+                    <ol>
+<li>
+<p>How does the weekly active user rate vary by signup source (Referral vs other sources), and are certain acquisition channels showing steeper declines in user engagement?</p>
+</li>
+<li>
+<p>Is there a significant difference in weekly active user rates between platforms (iOS vs others), and could platform-specific issues be contributing to the overall drop?</p>
+</li>
+<li>
+<p>What is the relationship between onboarding completion rates and weekly active users - are users who didn't complete onboarding more likely to become inactive, and has this pattern changed recently?</p>
+</li>
+<li>
+<p>How does load time performance correlate with weekly active user status, and are users experiencing slower load times (higher load_time_seconds) more likely to become inactive?</p>
+</li>
+<li>
+<p>What is the conversion funnel from signup → onboarding completion → weekly active user, and at which stage are we seeing the biggest drop-offs that could explain the decline in weekly active users?</p>
+</li>
+</ol>
+                </div>
+        </div>
+
+
+        <div class="section">
+                <h2>Analysis & Insights</h2>
+                <div class="synthesis-content">
+                    <div class="synthesis-section"><h1>Weekly Active User Decline Analysis Report</h1>
+<h2>Executive Summary</h2>
+<p>This analysis investigated the factors driving the decline in weekly active users by examining user engagement patterns across 1,000 users. The study focused on five key areas: signup source performance, platform differences, onboarding impact, load time effects, and conversion funnel analysis.</p>
+<h2>Key Findings</h2>
+<h3>1. Onboarding Completion is the Primary Driver</h3>
+<p><strong>The most significant factor affecting weekly active users is onboarding completion:</strong><br/>
+- Users who completed onboarding: <strong>74.4% weekly active rate</strong><br/>
+- Users who didn't complete onboarding: <strong>13.2% weekly active rate</strong><br/>
+- Strong positive correlation (r=0.5250, p&lt;0.001) between onboarding and user activity<br/>
+- <strong>22.8% of users fail to complete onboarding</strong>, representing the largest conversion drop-off</p>
+<h3>2. Acquisition Channel Performance Varies Significantly</h3>
+<p><strong>Organic traffic significantly outperforms paid channels:</strong><br/>
+- Organic users: <strong>69.5% weekly active rate</strong><br/>
+- Referral users: <strong>58.9% weekly active rate</strong><br/>
+- Ad Campaign users: <strong>45.0% weekly active rate</strong><br/>
+- Statistical significance confirmed (p&lt;0.001), indicating genuine performance differences</p>
+<h3>3. Platform-Specific Engagement Gaps</h3>
+<p><strong>iOS users show higher engagement than Android users:</strong><br/>
+- iOS users: <strong>64.4% weekly active rate</strong><br/>
+- Android users: <strong>57.8% weekly active rate</strong><br/>
+- Moderate but statistically significant difference (p=0.043)</p>
+<h3>4. Load Time Performance Impact</h3>
+<p><strong>Slower load times correlate with reduced user activity:</strong><br/>
+- Active users average load time: <strong>2.15 seconds</strong><br/>
+- Inactive users average load time: <strong>2.54 seconds</strong><br/>
+- Negative correlation (r=-0.2425, p&lt;0.001) confirms performance impact on engagement</p>
+<h3>5. Conversion Funnel Analysis</h3>
+<p><strong>The user journey shows clear drop-off points:</strong><br/>
+- Total signups → Onboarding completion: <strong>77.2%</strong> (228 users lost)<br/>
+- Onboarding completion → Weekly active: <strong>78.2%</strong> (168 users lost)<br/>
+- Overall signup → Weekly active conversion: <strong>60.4%</strong></p>
+<h2>Root Cause Analysis</h2>
+<p><strong>Primary Issue: Onboarding Barrier</strong><br/>
+The analysis clearly identifies onboarding completion as the strongest predictor of user activity. With nearly 23% of users failing to complete onboarding and only 13% of non-completers becoming active, this represents the most critical intervention point.</p>
+<p><strong>Secondary Issues:</strong><br/>
+1. <strong>Acquisition Quality</strong>: Ad campaign users show 24.5 percentage points lower engagement than organic users<br/>
+2. <strong>Platform Experience</strong>: Android users lag iOS users by 6.6 percentage points<br/>
+3. <strong>Performance Issues</strong>: Load time differences of 0.39 seconds correlate with activity differences</p>
+<h2>Recommendations</h2>
+<h3>Immediate Actions (High Impact)</h3>
+<ol>
+<li><strong>Redesign Onboarding Process</strong>: Focus on the 23% who don't complete onboarding</li>
+<li>Simplify onboarding steps</li>
+<li>Add progress indicators and motivation</li>
+<li>
+<p>Implement onboarding abandonment recovery campaigns</p>
+</li>
+<li>
+<p><strong>Optimize Android Experience</strong>: Address the 6.6 percentage point gap</p>
+</li>
+<li>Investigate Android-specific usability issues</li>
+<li>Improve load times on Android devices</li>
+</ol>
+<h3>Medium-Term Improvements</h3>
+<ol>
+<li><strong>Refine Acquisition Strategy</strong>: </li>
+<li>Reduce ad campaign spend or improve targeting quality</li>
+<li>
+<p>Increase investment in organic and referral channels</p>
+</li>
+<li>
+<p><strong>Performance Optimization</strong>:</p>
+</li>
+<li>Target load time improvements, especially for inactive user segments</li>
+<li>Focus on users experiencing &gt;2.5 second load times</li>
+</ol>
+<h2>Expected Impact</h2>
+<p>Based on the statistical relationships identified:<br/>
+- <strong>Improving onboarding completion by 10 percentage points</strong> could increase overall WAU rate from 60.4% to approximately 67-70%<br/>
+- <strong>Addressing platform gaps</strong> could add 2-4 percentage points to overall engagement<br/>
+- <strong>Combined interventions</strong> could potentially achieve 70%+ weekly active user rates</p>
+<h2>Next Steps</h2>
+<ol>
+<li>Conduct qualitative research on onboarding drop-off reasons</li>
+<li>A/B test simplified onboarding flows</li>
+<li>Implement platform-specific performance monitoring</li>
+<li>Establish ongoing tracking of these key metrics to measure improvement</li>
+</ol>
+<p>This analysis provides a clear roadmap for addressing the weekly active user decline, with onboarding optimization offering the highest potential return on investment.</p></div>
+        </div>
+
+                <div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="3fbc7018-5e35-4599-9029-0a943830d7ef" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("3fbc7018-5e35-4599-9029-0a943830d7ef")) {                    Plotly.newPlot(                        "3fbc7018-5e35-4599-9029-0a943830d7ef",                        [{"marker":{"color":["#1f77b4","#ff7f0e"]},"name":"Weekly Active User Rate","text":["45.0%","69.5%","58.9%"],"textposition":"outside","x":["Ad Campaign","Organic","Referral"],"y":[0.450354609929078,0.6947162426614482,0.5893719806763285],"type":"bar"}],                        {"height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Weekly Active User Rate by Signup Source"},"xaxis":{"title":{"text":"Signup Source"}},"yaxis":{"tickformat":".1%","title":{"text":"Weekly Active User Rate"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="560d4f48-f07f-43da-b0c3-c155e77ff278" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("560d4f48-f07f-43da-b0c3-c155e77ff278")) {                    Plotly.newPlot(                        "560d4f48-f07f-43da-b0c3-c155e77ff278",                        [{"marker":{"color":["#2ca02c","#d62728"]},"name":"Weekly Active User Rate","text":["57.8%","64.4%"],"textposition":"outside","x":["Android","iOS"],"y":[0.5778145695364238,0.6439393939393939],"type":"bar"}],                        {"height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Weekly Active User Rate by Platform"},"xaxis":{"title":{"text":"Platform"}},"yaxis":{"tickformat":".1%","title":{"text":"Weekly Active User Rate"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="5986deca-dae1-447e-8c44-d8e1e58b7681" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("5986deca-dae1-447e-8c44-d8e1e58b7681")) {                    Plotly.newPlot(                        "5986deca-dae1-447e-8c44-d8e1e58b7681",                        [{"marker":{"color":"#2ca02c"},"name":"Active Users","nbinsx":30,"opacity":0.7,"x":[1.7,2.28,1.39,2.92,1.54,2.74,1.58,2.38,3.28,2.2,1.5,1.2,1.0,2.86,2.15,2.16,2.45,1.21,1.55,1.9,2.48,1.59,3.37,1.64,2.06,2.12,2.91,1.51,1.63,2.09,3.41,1.82,2.08,1.0,2.11,2.33,2.68,1.26,3.48,2.1,1.63,1.89,1.52,2.11,1.92,2.6,2.67,2.25,1.82,1.71,2.38,2.35,1.91,1.61,1.62,1.86,2.89,2.24,2.61,1.97,2.87,2.9,2.43,2.09,2.34,1.82,2.13,1.79,3.57,1.06,2.57,1.38,2.86,2.44,1.68,2.2,1.92,1.49,1.18,1.65,2.62,1.0,2.08,2.72,1.8,4.47,3.79,1.65,2.26,3.27,2.83,2.14,2.45,2.33,2.32,1.75,1.63,2.37,2.5,1.87,1.88,3.16,3.14,2.42,1.73,2.17,1.27,1.95,1.64,2.55,3.24,2.1,1.56,2.67,2.59,1.53,2.27,2.18,1.81,2.22,3.39,1.93,1.54,1.72,2.24,2.27,1.63,1.39,2.07,2.78,2.15,1.62,4.09,1.97,1.89,3.25,1.02,1.97,1.78,1.97,1.7,2.51,2.18,1.68,1.88,1.93,4.53,2.66,1.31,1.91,1.15,3.49,1.55,1.73,1.0,1.42,2.12,1.54,1.83,2.13,1.65,1.36,2.85,1.0,1.41,1.69,2.54,2.84,1.68,1.35,1.99,1.33,3.03,1.76,3.31,1.7,2.1,2.05,1.81,2.28,1.87,3.59,2.34,2.03,1.95,2.38,2.21,3.03,1.4,1.81,2.55,1.84,1.81,2.46,1.18,1.37,2.03,2.42,1.0,1.4,2.02,2.5,1.95,1.23,1.77,2.1,1.75,1.89,2.16,1.41,1.35,2.63,2.23,2.15,1.86,1.4,2.42,2.58,3.15,1.1,1.73,2.14,1.93,1.63,2.4,3.34,3.88,2.16,1.42,2.33,2.24,1.91,2.48,4.36,2.11,2.0,3.01,2.83,1.06,1.58,1.93,4.45,2.02,1.49,2.13,3.97,1.76,2.33,1.65,2.59,2.64,2.98,4.13,3.49,1.97,2.83,3.1,1.82,1.0,1.81,2.28,1.69,1.7,1.68,2.06,2.51,1.79,2.91,2.04,1.91,1.58,2.31,1.97,1.86,1.85,1.85,2.32,1.99,1.0,1.99,1.62,2.31,1.1,2.7,2.02,1.83,2.39,1.05,1.7,2.03,2.07,2.38,2.03,1.63,1.66,1.91,1.8,1.68,3.31,3.86,2.3,1.5,2.23,2.48,2.02,2.28,2.13,1.9,1.67,2.17,2.06,1.66,1.76,2.13,2.94,1.52,1.9,3.25,2.35,3.59,2.7,1.39,2.04,2.42,1.51,2.17,2.01,1.63,1.76,2.64,1.84,2.45,1.42,1.45,2.21,1.33,1.63,2.18,2.35,1.64,2.24,1.41,2.14,1.79,2.99,2.0,2.69,1.74,1.35,2.24,2.41,2.19,2.07,1.0,2.28,2.32,3.43,2.24,1.76,2.25,1.01,2.86,2.0,2.69,1.98,3.41,1.48,1.53,2.23,1.64,4.37,1.0,1.65,1.78,1.71,3.46,2.59,3.54,2.14,3.29,3.18,1.95,2.24,3.77,2.17,1.46,2.05,2.32,2.22,1.95,1.94,2.75,3.07,4.85,2.09,1.15,3.24,2.08,2.12,2.06,3.25,1.85,1.19,2.24,1.68,1.91,1.55,1.57,3.14,2.33,2.07,3.11,1.96,1.5,1.14,1.96,2.59,2.21,1.46,1.95,1.5,2.01,2.18,2.58,1.78,3.3,3.59,1.88,1.43,1.73,1.0,1.36,2.07,1.0,1.54,2.23,2.5,1.63,2.5,2.15,2.09,2.37,1.97,4.58,2.98,2.24,3.38,2.39,1.62,1.78,2.36,2.02,1.0,2.12,2.09,2.1,2.2,1.28,2.32,1.65,1.97,2.38,2.08,1.75,1.76,1.4,1.58,2.3,1.8,1.36,1.38,1.94,1.8,1.19,3.05,2.61,1.63,1.83,1.57,2.5,3.05,2.86,2.06,2.17,2.21,2.13,1.88,1.01,1.85,1.99,1.9,1.95,1.99,1.97,3.14,1.52,1.8,2.14,2.11,1.27,1.86,3.65,3.48,1.86,2.46,2.51,1.69,1.94,4.03,1.98,1.71,3.07,2.24,2.35,1.89,1.67,4.44,1.87,2.21,2.01,2.0,2.38,3.53,2.6,3.52,2.11,2.2,2.37,2.45,2.24,1.36,1.93,2.45,1.75,2.35,2.81,3.95,1.9,1.93,2.75,3.8,2.14,2.42,1.88,1.88,1.95,1.28,1.86,2.07,2.3,2.46,1.87,3.78,3.55,1.81,1.89,1.24,2.38,4.3,1.24,1.71,2.27,1.84,3.33,2.72,1.96,1.38,2.15,1.72,2.53,2.05,2.3,2.0,2.01,2.19,2.05,2.04,1.32,2.3,2.08,1.45,1.79,3.05,2.19,2.0,1.36,2.24,1.97,1.55,3.28,2.64,2.44,2.72,2.01,1.5,1.59,1.29,4.24,2.39,1.94,2.0,2.75,2.16,1.79],"type":"histogram"},{"marker":{"color":"#d62728"},"name":"Inactive Users","nbinsx":30,"opacity":0.7,"x":[2.09,2.28,1.0,3.79,3.57,3.01,2.3,1.61,2.28,1.39,1.89,2.53,4.46,2.14,3.74,2.96,4.07,1.83,2.0,1.7,2.92,1.8,1.65,4.82,1.63,3.01,2.53,1.91,3.29,2.57,2.39,2.33,1.07,1.71,3.55,1.03,4.08,1.88,2.85,1.91,3.85,2.71,3.57,4.05,2.73,1.16,3.86,3.74,3.73,2.12,1.82,2.74,3.29,2.09,2.13,2.89,2.81,1.95,2.03,1.64,3.33,2.01,4.32,2.04,3.43,2.86,2.36,1.67,3.63,2.2,2.42,2.12,4.57,2.81,2.05,3.96,2.68,2.47,4.22,2.24,1.76,2.19,1.95,2.23,2.48,1.95,3.18,2.99,3.49,2.43,2.08,1.61,1.54,3.53,3.62,1.99,2.81,2.23,2.57,1.59,2.4,4.48,4.03,3.04,2.15,3.59,2.69,1.0,2.06,1.08,3.67,3.72,3.23,3.93,1.97,2.27,2.24,1.0,3.08,2.35,3.17,1.8,2.38,2.69,2.16,2.44,1.53,4.93,1.81,4.01,3.88,2.2,3.87,1.95,1.81,2.74,1.81,1.7,2.02,2.51,2.26,2.42,2.17,1.77,3.32,1.47,3.85,3.62,3.76,2.18,4.08,3.42,2.73,1.79,3.93,2.1,2.81,3.43,2.23,1.91,1.59,2.06,4.61,1.0,2.61,2.87,1.82,2.51,1.84,2.95,1.44,1.88,2.62,2.42,2.18,2.23,1.42,2.4,2.02,2.64,3.31,3.24,2.45,1.9,2.54,2.22,3.09,2.29,1.87,3.25,3.84,3.42,2.3,3.53,1.82,2.44,3.53,2.28,3.11,2.24,2.4,2.26,2.88,3.56,1.97,2.21,2.68,3.68,1.8,2.02,3.15,2.27,2.16,1.17,1.45,1.75,2.25,1.13,1.7,3.38,2.83,2.01,1.99,4.33,2.37,2.45,1.79,1.56,1.32,2.84,3.93,4.25,2.0,1.62,3.06,4.44,1.97,3.25,2.48,2.67,2.21,2.34,2.49,2.73,3.37,1.61,2.34,2.97,1.93,2.19,2.73,3.69,1.92,2.03,2.64,1.54,2.22,1.15,3.95,2.57,3.18,1.73,3.46,1.8,4.34,4.51,2.25,2.59,3.92,3.46,3.63,2.61,2.37,1.45,1.26,1.63,1.48,3.32,2.26,2.62,1.06,3.44,3.5,1.72,3.15,2.89,1.59,1.19,1.0,2.29,2.74,3.3,1.92,2.85,2.75,1.67,2.54,2.87,2.43,3.56,1.41,3.03,4.41,2.43,1.78,1.93,3.22,4.17,1.53,3.47,2.48,2.59,2.74,2.49,4.06,1.87,1.45,2.28,3.09,2.05,2.92,2.48,2.57,2.11,2.21,4.05,2.66,2.9,2.03,1.44,1.78,1.82,2.84,1.9,3.25,1.0,2.4,2.7,2.24,1.71,2.44,1.0,1.42,2.7,3.01,2.75,1.74,2.36,2.34,2.19,3.6,3.92,2.17,1.57,2.29,1.06,2.9,3.67,1.0,3.13,1.51,2.63,2.95,3.4,2.07,2.87,2.39,1.97,1.61,2.16,2.26,2.48,1.0,3.0,2.23,1.33,3.13,1.9,2.73,4.0,2.49,2.81,2.01,3.58,2.29,1.43,1.92,1.57,2.37,3.73,1.65,3.04,2.45,3.35,2.55,2.22],"type":"histogram"}],                        {"barmode":"overlay","height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Load Time Distribution by User Activity Status"},"xaxis":{"title":{"text":"Load Time (seconds)"}},"yaxis":{"title":{"text":"Count"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="d218b4f9-fb3d-461c-8cea-029fcdf80744" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d218b4f9-fb3d-461c-8cea-029fcdf80744")) {                    Plotly.newPlot(                        "d218b4f9-fb3d-461c-8cea-029fcdf80744",                        [{"marker":{"color":["#2ca02c","#d62728"]},"name":"Weekly Active User Rate","text":["74.4%","13.2%"],"textposition":"outside","x":["Completed Onboarding","Did Not Complete"],"y":[0.7435233160621761,0.13157894736842105],"type":"bar"}],                        {"height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Weekly Active User Rate by Onboarding Completion"},"xaxis":{"title":{"text":"Onboarding Status"}},"yaxis":{"tickformat":".1%","title":{"text":"Weekly Active User Rate"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="c3d6fbf3-413f-4d35-9521-62ff721f8c5f" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("c3d6fbf3-413f-4d35-9521-62ff721f8c5f")) {                    Plotly.newPlot(                        "c3d6fbf3-413f-4d35-9521-62ff721f8c5f",                        [{"marker":{"color":["#1f77b4","#ff7f0e","#2ca02c"]},"textinfo":"value+percent initial","x":[1000,772,604],"y":["Total Signups","Onboarding Completed","Weekly Active Users"],"type":"funnel"}],                        {"height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"User Conversion Funnel: Signup to Weekly Active User"}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="16d53f1f-7da4-4005-a8fc-ff88c1ee13c5" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("16d53f1f-7da4-4005-a8fc-ff88c1ee13c5")) {                    Plotly.newPlot(                        "16d53f1f-7da4-4005-a8fc-ff88c1ee13c5",                        [{"boxpoints":"outliers","marker":{"color":"#2ca02c"},"name":"Active Users","y":[1.7,2.28,1.39,2.92,1.54,2.74,1.58,2.38,3.28,2.2,1.5,1.2,1.0,2.86,2.15,2.16,2.45,1.21,1.55,1.9,2.48,1.59,3.37,1.64,2.06,2.12,2.91,1.51,1.63,2.09,3.41,1.82,2.08,1.0,2.11,2.33,2.68,1.26,3.48,2.1,1.63,1.89,1.52,2.11,1.92,2.6,2.67,2.25,1.82,1.71,2.38,2.35,1.91,1.61,1.62,1.86,2.89,2.24,2.61,1.97,2.87,2.9,2.43,2.09,2.34,1.82,2.13,1.79,3.57,1.06,2.57,1.38,2.86,2.44,1.68,2.2,1.92,1.49,1.18,1.65,2.62,1.0,2.08,2.72,1.8,4.47,3.79,1.65,2.26,3.27,2.83,2.14,2.45,2.33,2.32,1.75,1.63,2.37,2.5,1.87,1.88,3.16,3.14,2.42,1.73,2.17,1.27,1.95,1.64,2.55,3.24,2.1,1.56,2.67,2.59,1.53,2.27,2.18,1.81,2.22,3.39,1.93,1.54,1.72,2.24,2.27,1.63,1.39,2.07,2.78,2.15,1.62,4.09,1.97,1.89,3.25,1.02,1.97,1.78,1.97,1.7,2.51,2.18,1.68,1.88,1.93,4.53,2.66,1.31,1.91,1.15,3.49,1.55,1.73,1.0,1.42,2.12,1.54,1.83,2.13,1.65,1.36,2.85,1.0,1.41,1.69,2.54,2.84,1.68,1.35,1.99,1.33,3.03,1.76,3.31,1.7,2.1,2.05,1.81,2.28,1.87,3.59,2.34,2.03,1.95,2.38,2.21,3.03,1.4,1.81,2.55,1.84,1.81,2.46,1.18,1.37,2.03,2.42,1.0,1.4,2.02,2.5,1.95,1.23,1.77,2.1,1.75,1.89,2.16,1.41,1.35,2.63,2.23,2.15,1.86,1.4,2.42,2.58,3.15,1.1,1.73,2.14,1.93,1.63,2.4,3.34,3.88,2.16,1.42,2.33,2.24,1.91,2.48,4.36,2.11,2.0,3.01,2.83,1.06,1.58,1.93,4.45,2.02,1.49,2.13,3.97,1.76,2.33,1.65,2.59,2.64,2.98,4.13,3.49,1.97,2.83,3.1,1.82,1.0,1.81,2.28,1.69,1.7,1.68,2.06,2.51,1.79,2.91,2.04,1.91,1.58,2.31,1.97,1.86,1.85,1.85,2.32,1.99,1.0,1.99,1.62,2.31,1.1,2.7,2.02,1.83,2.39,1.05,1.7,2.03,2.07,2.38,2.03,1.63,1.66,1.91,1.8,1.68,3.31,3.86,2.3,1.5,2.23,2.48,2.02,2.28,2.13,1.9,1.67,2.17,2.06,1.66,1.76,2.13,2.94,1.52,1.9,3.25,2.35,3.59,2.7,1.39,2.04,2.42,1.51,2.17,2.01,1.63,1.76,2.64,1.84,2.45,1.42,1.45,2.21,1.33,1.63,2.18,2.35,1.64,2.24,1.41,2.14,1.79,2.99,2.0,2.69,1.74,1.35,2.24,2.41,2.19,2.07,1.0,2.28,2.32,3.43,2.24,1.76,2.25,1.01,2.86,2.0,2.69,1.98,3.41,1.48,1.53,2.23,1.64,4.37,1.0,1.65,1.78,1.71,3.46,2.59,3.54,2.14,3.29,3.18,1.95,2.24,3.77,2.17,1.46,2.05,2.32,2.22,1.95,1.94,2.75,3.07,4.85,2.09,1.15,3.24,2.08,2.12,2.06,3.25,1.85,1.19,2.24,1.68,1.91,1.55,1.57,3.14,2.33,2.07,3.11,1.96,1.5,1.14,1.96,2.59,2.21,1.46,1.95,1.5,2.01,2.18,2.58,1.78,3.3,3.59,1.88,1.43,1.73,1.0,1.36,2.07,1.0,1.54,2.23,2.5,1.63,2.5,2.15,2.09,2.37,1.97,4.58,2.98,2.24,3.38,2.39,1.62,1.78,2.36,2.02,1.0,2.12,2.09,2.1,2.2,1.28,2.32,1.65,1.97,2.38,2.08,1.75,1.76,1.4,1.58,2.3,1.8,1.36,1.38,1.94,1.8,1.19,3.05,2.61,1.63,1.83,1.57,2.5,3.05,2.86,2.06,2.17,2.21,2.13,1.88,1.01,1.85,1.99,1.9,1.95,1.99,1.97,3.14,1.52,1.8,2.14,2.11,1.27,1.86,3.65,3.48,1.86,2.46,2.51,1.69,1.94,4.03,1.98,1.71,3.07,2.24,2.35,1.89,1.67,4.44,1.87,2.21,2.01,2.0,2.38,3.53,2.6,3.52,2.11,2.2,2.37,2.45,2.24,1.36,1.93,2.45,1.75,2.35,2.81,3.95,1.9,1.93,2.75,3.8,2.14,2.42,1.88,1.88,1.95,1.28,1.86,2.07,2.3,2.46,1.87,3.78,3.55,1.81,1.89,1.24,2.38,4.3,1.24,1.71,2.27,1.84,3.33,2.72,1.96,1.38,2.15,1.72,2.53,2.05,2.3,2.0,2.01,2.19,2.05,2.04,1.32,2.3,2.08,1.45,1.79,3.05,2.19,2.0,1.36,2.24,1.97,1.55,3.28,2.64,2.44,2.72,2.01,1.5,1.59,1.29,4.24,2.39,1.94,2.0,2.75,2.16,1.79],"type":"box"},{"boxpoints":"outliers","marker":{"color":"#d62728"},"name":"Inactive Users","y":[2.09,2.28,1.0,3.79,3.57,3.01,2.3,1.61,2.28,1.39,1.89,2.53,4.46,2.14,3.74,2.96,4.07,1.83,2.0,1.7,2.92,1.8,1.65,4.82,1.63,3.01,2.53,1.91,3.29,2.57,2.39,2.33,1.07,1.71,3.55,1.03,4.08,1.88,2.85,1.91,3.85,2.71,3.57,4.05,2.73,1.16,3.86,3.74,3.73,2.12,1.82,2.74,3.29,2.09,2.13,2.89,2.81,1.95,2.03,1.64,3.33,2.01,4.32,2.04,3.43,2.86,2.36,1.67,3.63,2.2,2.42,2.12,4.57,2.81,2.05,3.96,2.68,2.47,4.22,2.24,1.76,2.19,1.95,2.23,2.48,1.95,3.18,2.99,3.49,2.43,2.08,1.61,1.54,3.53,3.62,1.99,2.81,2.23,2.57,1.59,2.4,4.48,4.03,3.04,2.15,3.59,2.69,1.0,2.06,1.08,3.67,3.72,3.23,3.93,1.97,2.27,2.24,1.0,3.08,2.35,3.17,1.8,2.38,2.69,2.16,2.44,1.53,4.93,1.81,4.01,3.88,2.2,3.87,1.95,1.81,2.74,1.81,1.7,2.02,2.51,2.26,2.42,2.17,1.77,3.32,1.47,3.85,3.62,3.76,2.18,4.08,3.42,2.73,1.79,3.93,2.1,2.81,3.43,2.23,1.91,1.59,2.06,4.61,1.0,2.61,2.87,1.82,2.51,1.84,2.95,1.44,1.88,2.62,2.42,2.18,2.23,1.42,2.4,2.02,2.64,3.31,3.24,2.45,1.9,2.54,2.22,3.09,2.29,1.87,3.25,3.84,3.42,2.3,3.53,1.82,2.44,3.53,2.28,3.11,2.24,2.4,2.26,2.88,3.56,1.97,2.21,2.68,3.68,1.8,2.02,3.15,2.27,2.16,1.17,1.45,1.75,2.25,1.13,1.7,3.38,2.83,2.01,1.99,4.33,2.37,2.45,1.79,1.56,1.32,2.84,3.93,4.25,2.0,1.62,3.06,4.44,1.97,3.25,2.48,2.67,2.21,2.34,2.49,2.73,3.37,1.61,2.34,2.97,1.93,2.19,2.73,3.69,1.92,2.03,2.64,1.54,2.22,1.15,3.95,2.57,3.18,1.73,3.46,1.8,4.34,4.51,2.25,2.59,3.92,3.46,3.63,2.61,2.37,1.45,1.26,1.63,1.48,3.32,2.26,2.62,1.06,3.44,3.5,1.72,3.15,2.89,1.59,1.19,1.0,2.29,2.74,3.3,1.92,2.85,2.75,1.67,2.54,2.87,2.43,3.56,1.41,3.03,4.41,2.43,1.78,1.93,3.22,4.17,1.53,3.47,2.48,2.59,2.74,2.49,4.06,1.87,1.45,2.28,3.09,2.05,2.92,2.48,2.57,2.11,2.21,4.05,2.66,2.9,2.03,1.44,1.78,1.82,2.84,1.9,3.25,1.0,2.4,2.7,2.24,1.71,2.44,1.0,1.42,2.7,3.01,2.75,1.74,2.36,2.34,2.19,3.6,3.92,2.17,1.57,2.29,1.06,2.9,3.67,1.0,3.13,1.51,2.63,2.95,3.4,2.07,2.87,2.39,1.97,1.61,2.16,2.26,2.48,1.0,3.0,2.23,1.33,3.13,1.9,2.73,4.0,2.49,2.81,2.01,3.58,2.29,1.43,1.92,1.57,2.37,3.73,1.65,3.04,2.45,3.35,2.55,2.22],"type":"box"}],                        {"height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Load Time Distribution by User Activity Status"},"xaxis":{"title":{"text":"User Activity Status"}},"yaxis":{"title":{"text":"Load Time (seconds)"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="d5baf1cf-3708-4ff8-8b16-347c6b97d3d3" class="plotly-graph-div" style="height:500px; width:600px;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d5baf1cf-3708-4ff8-8b16-347c6b97d3d3")) {                    Plotly.newPlot(                        "d5baf1cf-3708-4ff8-8b16-347c6b97d3d3",                        [{"colorscale":[[0.0,"rgb(103,0,31)"],[0.1,"rgb(178,24,43)"],[0.2,"rgb(214,96,77)"],[0.3,"rgb(244,165,130)"],[0.4,"rgb(253,219,199)"],[0.5,"rgb(247,247,247)"],[0.6,"rgb(209,229,240)"],[0.7,"rgb(146,197,222)"],[0.8,"rgb(67,147,195)"],[0.9,"rgb(33,102,172)"],[1.0,"rgb(5,48,97)"]],"hoverongaps":false,"text":[[1.0,0.525,-0.391],[0.525,1.0,-0.242],[-0.391,-0.242,1.0]],"textfont":{"size":12},"texttemplate":"%{text}","x":["onboarding_completed","is_weekly_active_user","load_time_seconds"],"y":["onboarding_completed","is_weekly_active_user","load_time_seconds"],"z":[[1.0,0.5249548518661882,-0.391343891451284],[0.5249548518661882,1.0,-0.2424715499684104],[-0.391343891451284,-0.2424715499684104,1.0]],"zmid":0,"type":"heatmap"}],                        {"height":500,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Correlation Matrix: User Behavior Metrics"},"width":600},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="7fa13cf6-16c8-4e0b-8a53-fe4d31e9c609" class="plotly-graph-div" style="height:800px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("7fa13cf6-16c8-4e0b-8a53-fe4d31e9c609")) {                    Plotly.newPlot(                        "7fa13cf6-16c8-4e0b-8a53-fe4d31e9c609",                        [{"marker":{"color":["#1f77b4","#ff7f0e"]},"name":"Signup Source","x":["Ad Campaign","Organic","Referral"],"xaxis":"x","y":[0.450354609929078,0.6947162426614482,0.5893719806763285],"yaxis":"y","type":"bar"},{"marker":{"color":["#2ca02c","#d62728"]},"name":"Platform","x":["Android","iOS"],"xaxis":"x2","y":[0.5778145695364238,0.6439393939393939],"yaxis":"y2","type":"bar"},{"marker":{"color":["#2ca02c","#d62728"]},"name":"Onboarding","x":["Completed Onboarding","Did Not Complete"],"xaxis":"x3","y":[0.7435233160621761,0.13157894736842105],"yaxis":"y3","type":"bar"},{"marker":{"color":"#2ca02c"},"name":"Active","xaxis":"x4","y":[1.7,2.28,1.39,2.92,1.54,2.74,1.58,2.38,3.28,2.2,1.5,1.2,1.0,2.86,2.15,2.16,2.45,1.21,1.55,1.9,2.48,1.59,3.37,1.64,2.06,2.12,2.91,1.51,1.63,2.09,3.41,1.82,2.08,1.0,2.11,2.33,2.68,1.26,3.48,2.1,1.63,1.89,1.52,2.11,1.92,2.6,2.67,2.25,1.82,1.71,2.38,2.35,1.91,1.61,1.62,1.86,2.89,2.24,2.61,1.97,2.87,2.9,2.43,2.09,2.34,1.82,2.13,1.79,3.57,1.06,2.57,1.38,2.86,2.44,1.68,2.2,1.92,1.49,1.18,1.65,2.62,1.0,2.08,2.72,1.8,4.47,3.79,1.65,2.26,3.27,2.83,2.14,2.45,2.33,2.32,1.75,1.63,2.37,2.5,1.87,1.88,3.16,3.14,2.42,1.73,2.17,1.27,1.95,1.64,2.55,3.24,2.1,1.56,2.67,2.59,1.53,2.27,2.18,1.81,2.22,3.39,1.93,1.54,1.72,2.24,2.27,1.63,1.39,2.07,2.78,2.15,1.62,4.09,1.97,1.89,3.25,1.02,1.97,1.78,1.97,1.7,2.51,2.18,1.68,1.88,1.93,4.53,2.66,1.31,1.91,1.15,3.49,1.55,1.73,1.0,1.42,2.12,1.54,1.83,2.13,1.65,1.36,2.85,1.0,1.41,1.69,2.54,2.84,1.68,1.35,1.99,1.33,3.03,1.76,3.31,1.7,2.1,2.05,1.81,2.28,1.87,3.59,2.34,2.03,1.95,2.38,2.21,3.03,1.4,1.81,2.55,1.84,1.81,2.46,1.18,1.37,2.03,2.42,1.0,1.4,2.02,2.5,1.95,1.23,1.77,2.1,1.75,1.89,2.16,1.41,1.35,2.63,2.23,2.15,1.86,1.4,2.42,2.58,3.15,1.1,1.73,2.14,1.93,1.63,2.4,3.34,3.88,2.16,1.42,2.33,2.24,1.91,2.48,4.36,2.11,2.0,3.01,2.83,1.06,1.58,1.93,4.45,2.02,1.49,2.13,3.97,1.76,2.33,1.65,2.59,2.64,2.98,4.13,3.49,1.97,2.83,3.1,1.82,1.0,1.81,2.28,1.69,1.7,1.68,2.06,2.51,1.79,2.91,2.04,1.91,1.58,2.31,1.97,1.86,1.85,1.85,2.32,1.99,1.0,1.99,1.62,2.31,1.1,2.7,2.02,1.83,2.39,1.05,1.7,2.03,2.07,2.38,2.03,1.63,1.66,1.91,1.8,1.68,3.31,3.86,2.3,1.5,2.23,2.48,2.02,2.28,2.13,1.9,1.67,2.17,2.06,1.66,1.76,2.13,2.94,1.52,1.9,3.25,2.35,3.59,2.7,1.39,2.04,2.42,1.51,2.17,2.01,1.63,1.76,2.64,1.84,2.45,1.42,1.45,2.21,1.33,1.63,2.18,2.35,1.64,2.24,1.41,2.14,1.79,2.99,2.0,2.69,1.74,1.35,2.24,2.41,2.19,2.07,1.0,2.28,2.32,3.43,2.24,1.76,2.25,1.01,2.86,2.0,2.69,1.98,3.41,1.48,1.53,2.23,1.64,4.37,1.0,1.65,1.78,1.71,3.46,2.59,3.54,2.14,3.29,3.18,1.95,2.24,3.77,2.17,1.46,2.05,2.32,2.22,1.95,1.94,2.75,3.07,4.85,2.09,1.15,3.24,2.08,2.12,2.06,3.25,1.85,1.19,2.24,1.68,1.91,1.55,1.57,3.14,2.33,2.07,3.11,1.96,1.5,1.14,1.96,2.59,2.21,1.46,1.95,1.5,2.01,2.18,2.58,1.78,3.3,3.59,1.88,1.43,1.73,1.0,1.36,2.07,1.0,1.54,2.23,2.5,1.63,2.5,2.15,2.09,2.37,1.97,4.58,2.98,2.24,3.38,2.39,1.62,1.78,2.36,2.02,1.0,2.12,2.09,2.1,2.2,1.28,2.32,1.65,1.97,2.38,2.08,1.75,1.76,1.4,1.58,2.3,1.8,1.36,1.38,1.94,1.8,1.19,3.05,2.61,1.63,1.83,1.57,2.5,3.05,2.86,2.06,2.17,2.21,2.13,1.88,1.01,1.85,1.99,1.9,1.95,1.99,1.97,3.14,1.52,1.8,2.14,2.11,1.27,1.86,3.65,3.48,1.86,2.46,2.51,1.69,1.94,4.03,1.98,1.71,3.07,2.24,2.35,1.89,1.67,4.44,1.87,2.21,2.01,2.0,2.38,3.53,2.6,3.52,2.11,2.2,2.37,2.45,2.24,1.36,1.93,2.45,1.75,2.35,2.81,3.95,1.9,1.93,2.75,3.8,2.14,2.42,1.88,1.88,1.95,1.28,1.86,2.07,2.3,2.46,1.87,3.78,3.55,1.81,1.89,1.24,2.38,4.3,1.24,1.71,2.27,1.84,3.33,2.72,1.96,1.38,2.15,1.72,2.53,2.05,2.3,2.0,2.01,2.19,2.05,2.04,1.32,2.3,2.08,1.45,1.79,3.05,2.19,2.0,1.36,2.24,1.97,1.55,3.28,2.64,2.44,2.72,2.01,1.5,1.59,1.29,4.24,2.39,1.94,2.0,2.75,2.16,1.79],"yaxis":"y4","type":"box"},{"marker":{"color":"#d62728"},"name":"Inactive","xaxis":"x4","y":[2.09,2.28,1.0,3.79,3.57,3.01,2.3,1.61,2.28,1.39,1.89,2.53,4.46,2.14,3.74,2.96,4.07,1.83,2.0,1.7,2.92,1.8,1.65,4.82,1.63,3.01,2.53,1.91,3.29,2.57,2.39,2.33,1.07,1.71,3.55,1.03,4.08,1.88,2.85,1.91,3.85,2.71,3.57,4.05,2.73,1.16,3.86,3.74,3.73,2.12,1.82,2.74,3.29,2.09,2.13,2.89,2.81,1.95,2.03,1.64,3.33,2.01,4.32,2.04,3.43,2.86,2.36,1.67,3.63,2.2,2.42,2.12,4.57,2.81,2.05,3.96,2.68,2.47,4.22,2.24,1.76,2.19,1.95,2.23,2.48,1.95,3.18,2.99,3.49,2.43,2.08,1.61,1.54,3.53,3.62,1.99,2.81,2.23,2.57,1.59,2.4,4.48,4.03,3.04,2.15,3.59,2.69,1.0,2.06,1.08,3.67,3.72,3.23,3.93,1.97,2.27,2.24,1.0,3.08,2.35,3.17,1.8,2.38,2.69,2.16,2.44,1.53,4.93,1.81,4.01,3.88,2.2,3.87,1.95,1.81,2.74,1.81,1.7,2.02,2.51,2.26,2.42,2.17,1.77,3.32,1.47,3.85,3.62,3.76,2.18,4.08,3.42,2.73,1.79,3.93,2.1,2.81,3.43,2.23,1.91,1.59,2.06,4.61,1.0,2.61,2.87,1.82,2.51,1.84,2.95,1.44,1.88,2.62,2.42,2.18,2.23,1.42,2.4,2.02,2.64,3.31,3.24,2.45,1.9,2.54,2.22,3.09,2.29,1.87,3.25,3.84,3.42,2.3,3.53,1.82,2.44,3.53,2.28,3.11,2.24,2.4,2.26,2.88,3.56,1.97,2.21,2.68,3.68,1.8,2.02,3.15,2.27,2.16,1.17,1.45,1.75,2.25,1.13,1.7,3.38,2.83,2.01,1.99,4.33,2.37,2.45,1.79,1.56,1.32,2.84,3.93,4.25,2.0,1.62,3.06,4.44,1.97,3.25,2.48,2.67,2.21,2.34,2.49,2.73,3.37,1.61,2.34,2.97,1.93,2.19,2.73,3.69,1.92,2.03,2.64,1.54,2.22,1.15,3.95,2.57,3.18,1.73,3.46,1.8,4.34,4.51,2.25,2.59,3.92,3.46,3.63,2.61,2.37,1.45,1.26,1.63,1.48,3.32,2.26,2.62,1.06,3.44,3.5,1.72,3.15,2.89,1.59,1.19,1.0,2.29,2.74,3.3,1.92,2.85,2.75,1.67,2.54,2.87,2.43,3.56,1.41,3.03,4.41,2.43,1.78,1.93,3.22,4.17,1.53,3.47,2.48,2.59,2.74,2.49,4.06,1.87,1.45,2.28,3.09,2.05,2.92,2.48,2.57,2.11,2.21,4.05,2.66,2.9,2.03,1.44,1.78,1.82,2.84,1.9,3.25,1.0,2.4,2.7,2.24,1.71,2.44,1.0,1.42,2.7,3.01,2.75,1.74,2.36,2.34,2.19,3.6,3.92,2.17,1.57,2.29,1.06,2.9,3.67,1.0,3.13,1.51,2.63,2.95,3.4,2.07,2.87,2.39,1.97,1.61,2.16,2.26,2.48,1.0,3.0,2.23,1.33,3.13,1.9,2.73,4.0,2.49,2.81,2.01,3.58,2.29,1.43,1.92,1.57,2.37,3.73,1.65,3.04,2.45,3.35,2.55,2.22],"yaxis":"y4","type":"box"}],                        {"annotations":[{"font":{"size":16},"showarrow":false,"text":"WAU Rate by Signup Source","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"WAU Rate by Platform","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Onboarding Impact on Activity","x":0.225,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Load Time vs Activity","x":0.775,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"}],"height":800,"showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Weekly Active User Analysis Dashboard"},"xaxis":{"anchor":"y","domain":[0.0,0.45]},"yaxis":{"anchor":"x","domain":[0.625,1.0],"tickformat":".1%"},"xaxis2":{"anchor":"y2","domain":[0.55,1.0]},"yaxis2":{"anchor":"x2","domain":[0.625,1.0],"tickformat":".1%"},"xaxis3":{"anchor":"y3","domain":[0.0,0.45]},"yaxis3":{"anchor":"x3","domain":[0.0,0.375],"tickformat":".1%"},"xaxis4":{"anchor":"y4","domain":[0.55,1.0]},"yaxis4":{"anchor":"x4","domain":[0.0,0.375]}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div>
+            </div>
+
+            
+        <div class="section">
+                <h2>Generated Code</h2>
+                <div class="code-section">
+                    <div class="code-header">
+                        <span id="codeToggle" onclick="toggleCode()" style="cursor: pointer;">
+                            View Generated Code (Click to expand)
+                        </span>
+                        <div class="code-controls">
+                            <button id="copyButton" class="copy-button" onclick="copyCode()">Copy</button>
+        </div>
+                    </div>
+                    <div class="code-content" id="codeContent">
+                        <pre><code id="rawCode" class="language-python">import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
+from scipy.stats import chi2_contingency, pearsonr
+import warnings
+warnings.filterwarnings('ignore')
+
+# Initialize list to store all Plotly figures
+plotly_figs = []
+
+print("=== USER ENGAGEMENT ANALYSIS PIPELINE ===\n")
+
+# ===== PREPROCESSING STAGE =====
+print("1. DATA PREPROCESSING")
+print("=" * 50)
+
+# Create a copy of the original DataFrame
+cleaned_df = df.copy()
+
+# Remove the unnamed index column as it's not needed for analysis
+if 'Unnamed: 0' in cleaned_df.columns:
+    cleaned_df = cleaned_df.drop('Unnamed: 0', axis=1)
+
+# Handle missing values in load_time_seconds
+if cleaned_df['load_time_seconds'].isnull().any():
+    missing_count = cleaned_df['load_time_seconds'].isnull().sum()
+    cleaned_df['load_time_seconds'] = cleaned_df['load_time_seconds'].fillna(cleaned_df['load_time_seconds'].median())
+    print(f"Filled {missing_count} missing values in load_time_seconds with median")
+
+# Handle missing values in categorical columns
+for col in ['signup_source', 'platform']:
+    if cleaned_df[col].isnull().any():
+        mode_value = cleaned_df[col].mode()[0] if not cleaned_df[col].mode().empty else 'Unknown'
+        cleaned_df[col] = cleaned_df[col].fillna(mode_value)
+        print(f"Filled missing values in {col} with {mode_value}")
+
+# Ensure proper data types
+cleaned_df['signup_source'] = cleaned_df['signup_source'].astype('category')
+cleaned_df['platform'] = cleaned_df['platform'].astype('category')
+cleaned_df['onboarding_completed'] = cleaned_df['onboarding_completed'].astype('bool')
+cleaned_df['is_weekly_active_user'] = cleaned_df['is_weekly_active_user'].astype('bool')
+
+print(f"Dataset shape after cleaning: {cleaned_df.shape}")
+print(f"Missing values: {cleaned_df.isnull().sum().sum()}")
+print()
+
+# ===== STATISTICAL ANALYSIS STAGE =====
+print("2. STATISTICAL ANALYSIS")
+print("=" * 50)
+
+# Create numeric versions for analysis
+cleaned_df_numeric = cleaned_df.copy()
+cleaned_df_numeric['onboarding_completed_num'] = cleaned_df_numeric['onboarding_completed'].astype(int)
+cleaned_df_numeric['is_weekly_active_user_num'] = cleaned_df_numeric['is_weekly_active_user'].astype(int)
+
+# 2.1 SEGMENTATION ANALYSIS
+print("2.1 Segmentation Analysis")
+print("-" * 30)
+
+# Weekly active user rates by signup source
+signup_crosstab = pd.crosstab(cleaned_df['signup_source'], cleaned_df['is_weekly_active_user'])
+signup_rates = pd.crosstab(cleaned_df['signup_source'], cleaned_df['is_weekly_active_user'], normalize='index')
+
+print("Weekly Active User Rates by Signup Source:")
+for source in signup_rates.index:
+    active_rate = signup_rates.loc[source, True] if True in signup_rates.columns else 0
+    total_users = signup_crosstab.loc[source].sum()
+    print(f"  {source}: {active_rate:.1%} ({signup_crosstab.loc[source, True] if True in signup_crosstab.columns else 0}/{total_users})")
+
+# Chi-square test for signup source
+chi2_signup, p_signup, dof_signup, expected_signup = chi2_contingency(signup_crosstab)
+print(f"Chi-square test: ={chi2_signup:.4f}, p={p_signup:.4f}")
+print()
+
+# Weekly active user rates by platform
+platform_crosstab = pd.crosstab(cleaned_df['platform'], cleaned_df['is_weekly_active_user'])
+platform_rates = pd.crosstab(cleaned_df['platform'], cleaned_df['is_weekly_active_user'], normalize='index')
+
+print("Weekly Active User Rates by Platform:")
+for platform in platform_rates.index:
+    active_rate = platform_rates.loc[platform, True] if True in platform_rates.columns else 0
+    total_users = platform_crosstab.loc[platform].sum()
+    print(f"  {platform}: {active_rate:.1%} ({platform_crosstab.loc[platform, True] if True in platform_crosstab.columns else 0}/{total_users})")
+
+# Chi-square test for platform
+chi2_platform, p_platform, dof_platform, expected_platform = chi2_contingency(platform_crosstab)
+print(f"Chi-square test: ={chi2_platform:.4f}, p={p_platform:.4f}")
+print()
+
+# Store segmentation analysis results
+segmentation_analysis = {
+    'signup_source_rates': signup_rates.to_dict(),
+    'platform_rates': platform_rates.to_dict(),
+    'signup_chi2_test': {'statistic': chi2_signup, 'p_value': p_signup},
+    'platform_chi2_test': {'statistic': chi2_platform, 'p_value': p_platform}
+}
+
+# 2.2 CORRELATION ANALYSIS
+print("2.2 Correlation Analysis")
+print("-" * 30)
+
+# Correlation between onboarding completion and weekly active users
+onboarding_corr, onboarding_p = pearsonr(cleaned_df_numeric['onboarding_completed_num'], 
+                                        cleaned_df_numeric['is_weekly_active_user_num'])
+print(f"Onboarding completion vs Weekly active users: r={onboarding_corr:.4f}, p={onboarding_p:.4f}")
+
+# Correlation between load time and weekly active users
+load_time_corr, load_time_p = pearsonr(cleaned_df_numeric['load_time_seconds'], 
+                                      cleaned_df_numeric['is_weekly_active_user_num'])
+print(f"Load time vs Weekly active users: r={load_time_corr:.4f}, p={load_time_p:.4f}")
+
+# Load time statistics by user activity
+load_time_stats = cleaned_df.groupby('is_weekly_active_user')['load_time_seconds'].agg(['mean', 'std', 'count'])
+print("\nLoad Time Statistics by User Activity:")
+print(load_time_stats)
+print()
+
+# Store correlation analysis results
+correlation_analysis = {
+    'onboarding_correlation': {'coefficient': onboarding_corr, 'p_value': onboarding_p},
+    'load_time_correlation': {'coefficient': load_time_corr, 'p_value': load_time_p},
+    'load_time_stats': load_time_stats.to_dict()
+}
+
+# 2.3 FUNNEL ANALYSIS
+print("2.3 Conversion Funnel Analysis")
+print("-" * 30)
+
+total_users = len(cleaned_df)
+onboarding_completed = cleaned_df['onboarding_completed'].sum()
+weekly_active_users = cleaned_df['is_weekly_active_user'].sum()
+
+# Calculate conversion rates
+signup_to_onboarding_rate = onboarding_completed / total_users
+onboarding_to_active_rate = weekly_active_users / onboarding_completed if onboarding_completed > 0 else 0
+overall_conversion_rate = weekly_active_users / total_users
+
+print(f"Conversion Funnel:")
+print(f"  Total Signups: {total_users}")
+print(f"  Onboarding Completed: {onboarding_completed} ({signup_to_onboarding_rate:.1%})")
+print(f"  Weekly Active Users: {weekly_active_users} ({overall_conversion_rate:.1%})")
+print()
+print(f"Stage Conversion Rates:")
+print(f"  Signup  ->  Onboarding: {signup_to_onboarding_rate:.1%}")
+print(f"  Onboarding  ->  Active: {onboarding_to_active_rate:.1%}")
+print(f"  Overall Signup  ->  Active: {overall_conversion_rate:.1%}")
+
+# Weekly active rates by onboarding completion
+completed_onboarding = cleaned_df[cleaned_df['onboarding_completed'] == True]
+not_completed_onboarding = cleaned_df[cleaned_df['onboarding_completed'] == False]
+
+active_rate_completed = completed_onboarding['is_weekly_active_user'].mean()
+active_rate_not_completed = not_completed_onboarding['is_weekly_active_user'].mean()
+
+print(f"\nWeekly Active Rates:")
+print(f"  Completed onboarding: {active_rate_completed:.1%}")
+print(f"  Did not complete onboarding: {active_rate_not_completed:.1%}")
+print()
+
+# Store funnel analysis results
+funnel_analysis = {
+    'total_users': total_users,
+    'onboarding_completed': onboarding_completed,
+    'weekly_active_users': weekly_active_users,
+    'conversion_rates': {
+        'signup_to_onboarding': signup_to_onboarding_rate,
+        'onboarding_to_active': onboarding_to_active_rate,
+        'overall_conversion': overall_conversion_rate
+    },
+    'active_rates_by_onboarding': {
+        'completed_onboarding': active_rate_completed,
+        'not_completed_onboarding': active_rate_not_completed
+    }
+}
+
+# ===== VISUALIZATION STAGE =====
+print("3. CREATING VISUALIZATIONS")
+print("=" * 50)
+
+# 3.1 Weekly Active User Rates by Signup Source
+fig1 = go.Figure()
+
+signup_sources = list(signup_rates.index)
+wau_rates_signup = [signup_rates.loc[source, True] if True in signup_rates.columns else 0 for source in signup_sources]
+
+fig1.add_trace(go.Bar(
+    x=signup_sources,
+    y=wau_rates_signup,
+    name='Weekly Active User Rate',
+    marker_color=['#1f77b4', '#ff7f0e'],
+    text=[f'{rate:.1%}' for rate in wau_rates_signup],
+    textposition='outside'
+))
+
+fig1.update_layout(
+    title='Weekly Active User Rate by Signup Source',
+    xaxis_title='Signup Source',
+    yaxis_title='Weekly Active User Rate',
+    yaxis_tickformat='.1%',
+    template='plotly_white',
+    height=500
+)
+
+plotly_figs.append(fig1)
+
+# 3.2 Weekly Active User Rates by Platform
+fig2 = go.Figure()
+
+platforms = list(platform_rates.index)
+wau_rates_platform = [platform_rates.loc[platform, True] if True in platform_rates.columns else 0 for platform in platforms]
+
+fig2.add_trace(go.Bar(
+    x=platforms,
+    y=wau_rates_platform,
+    name='Weekly Active User Rate',
+    marker_color=['#2ca02c', '#d62728'],
+    text=[f'{rate:.1%}' for rate in wau_rates_platform],
+    textposition='outside'
+))
+
+fig2.update_layout(
+    title='Weekly Active User Rate by Platform',
+    xaxis_title='Platform',
+    yaxis_title='Weekly Active User Rate',
+    yaxis_tickformat='.1%',
+    template='plotly_white',
+    height=500
+)
+
+plotly_figs.append(fig2)
+
+# 3.3 Load Time Distribution by User Activity
+fig3 = go.Figure()
+
+active_users_load_time = cleaned_df[cleaned_df['is_weekly_active_user'] == True]['load_time_seconds']
+inactive_users_load_time = cleaned_df[cleaned_df['is_weekly_active_user'] == False]['load_time_seconds']
+
+fig3.add_trace(go.Histogram(
+    x=active_users_load_time,
+    name='Active Users',
+    opacity=0.7,
+    marker_color='#2ca02c',
+    nbinsx=30
+))
+
+fig3.add_trace(go.Histogram(
+    x=inactive_users_load_time,
+    name='Inactive Users',
+    opacity=0.7,
+    marker_color='#d62728',
+    nbinsx=30
+))
+
+fig3.update_layout(
+    title='Load Time Distribution by User Activity Status',
+    xaxis_title='Load Time (seconds)',
+    yaxis_title='Count',
+    template='plotly_white',
+    height=500,
+    barmode='overlay'
+)
+
+plotly_figs.append(fig3)
+
+# 3.4 Onboarding Completion Impact
+fig4 = go.Figure()
+
+onboarding_categories = ['Completed Onboarding', 'Did Not Complete']
+onboarding_wau_rates = [active_rate_completed, active_rate_not_completed]
+
+fig4.add_trace(go.Bar(
+    x=onboarding_categories,
+    y=onboarding_wau_rates,
+    name='Weekly Active User Rate',
+    marker_color=['#2ca02c', '#d62728'],
+    text=[f'{rate:.1%}' for rate in onboarding_wau_rates],
+    textposition='outside'
+))
+
+fig4.update_layout(
+    title='Weekly Active User Rate by Onboarding Completion',
+    xaxis_title='Onboarding Status',
+    yaxis_title='Weekly Active User Rate',
+    yaxis_tickformat='.1%',
+    template='plotly_white',
+    height=500
+)
+
+plotly_figs.append(fig4)
+
+# 3.5 Conversion Funnel Visualization
+fig5 = go.Figure()
+
+funnel_stages = ['Total Signups', 'Onboarding Completed', 'Weekly Active Users']
+funnel_counts = [total_users, onboarding_completed, weekly_active_users]
+funnel_rates = [1.0, signup_to_onboarding_rate, overall_conversion_rate]
+
+fig5.add_trace(go.Funnel(
+    y=funnel_stages,
+    x=funnel_counts,
+    textinfo="value+percent initial",
+    marker_color=['#1f77b4', '#ff7f0e', '#2ca02c']
+))
+
+fig5.update_layout(
+    title='User Conversion Funnel: Signup to Weekly Active User',
+    template='plotly_white',
+    height=500
+)
+
+plotly_figs.append(fig5)
+
+# 3.6 Load Time vs Weekly Active User Status (Box Plot)
+fig6 = go.Figure()
+
+fig6.add_trace(go.Box(
+    y=active_users_load_time,
+    name='Active Users',
+    marker_color='#2ca02c',
+    boxpoints='outliers'
+))
+
+fig6.add_trace(go.Box(
+    y=inactive_users_load_time,
+    name='Inactive Users',
+    marker_color='#d62728',
+    boxpoints='outliers'
+))
+
+fig6.update_layout(
+    title='Load Time Distribution by User Activity Status',
+    xaxis_title='User Activity Status',
+    yaxis_title='Load Time (seconds)',
+    template='plotly_white',
+    height=500
+)
+
+plotly_figs.append(fig6)
+
+# 3.7 Correlation Heatmap
+correlation_data = pd.DataFrame({
+    'onboarding_completed': cleaned_df_numeric['onboarding_completed_num'],
+    'is_weekly_active_user': cleaned_df_numeric['is_weekly_active_user_num'],
+    'load_time_seconds': cleaned_df_numeric['load_time_seconds']
+})
+
+correlation_matrix = correlation_data.corr()
+
+fig7 = go.Figure(data=go.Heatmap(
+    z=correlation_matrix.values,
+    x=correlation_matrix.columns,
+    y=correlation_matrix.columns,
+    colorscale='RdBu',
+    zmid=0,
+    text=correlation_matrix.round(3).values,
+    texttemplate='%{text}',
+    textfont={'size': 12},
+    hoverongaps=False
+))
+
+fig7.update_layout(
+    title='Correlation Matrix: User Behavior Metrics',
+    template='plotly_white',
+    height=500,
+    width=600
+)
+
+plotly_figs.append(fig7)
+
+# 3.8 Comprehensive Dashboard
+fig8 = make_subplots(
+    rows=2, cols=2,
+    subplot_titles=[
+        'WAU Rate by Signup Source',
+        'WAU Rate by Platform',
+        'Onboarding Impact on Activity',
+        'Load Time vs Activity'
+    ],
+    specs=[[{'type': 'bar'}, {'type': 'bar'}],
+           [{'type': 'bar'}, {'type': 'box'}]]
+)
+
+# Add traces to dashboard
+fig8.add_trace(go.Bar(x=signup_sources, y=wau_rates_signup, name='Signup Source', 
+                     marker_color=['#1f77b4', '#ff7f0e']), row=1, col=1)
+fig8.add_trace(go.Bar(x=platforms, y=wau_rates_platform, name='Platform',
+                     marker_color=['#2ca02c', '#d62728']), row=1, col=2)
+fig8.add_trace(go.Bar(x=onboarding_categories, y=onboarding_wau_rates, name='Onboarding',
+                     marker_color=['#2ca02c', '#d62728']), row=2, col=1)
+fig8.add_trace(go.Box(y=active_users_load_time, name='Active', marker_color='#2ca02c'), row=2, col=2)
+fig8.add_trace(go.Box(y=inactive_users_load_time, name='Inactive', marker_color='#d62728'), row=2, col=2)
+
+fig8.update_layout(
+    title_text='Weekly Active User Analysis Dashboard',
+    height=800,
+    template='plotly_white',
+    showlegend=False
+)
+
+# Update y-axes formatting
+fig8.update_yaxes(tickformat='.1%', row=1, col=1)
+fig8.update_yaxes(tickformat='.1%', row=1, col=2)
+fig8.update_yaxes(tickformat='.1%', row=2, col=1)
+
+plotly_figs.append(fig8)
+
+# Display all figures
+for i, fig in enumerate(plotly_figs, 1):
+    print(f"Displaying Figure {i}")
+    fig.show()
+
+# ===== SUMMARY INSIGHTS =====
+print("4. KEY INSIGHTS SUMMARY")
+print("=" * 50)
+
+print("Question 1 - Signup Source Analysis:")
+referral_rate = signup_rates.loc['Referral', True] if 'Referral' in signup_rates.index and True in signup_rates.columns else 0
+other_sources = [src for src in signup_sources if src != 'Referral']
+other_rate = signup_rates.loc[other_sources[0], True] if other_sources and True in signup_rates.columns else 0
+print(f"  Referral users: {referral_rate:.1%} WAU rate")
+print(f"  Other sources: {other_rate:.1%} WAU rate")
+print(f"  Statistical significance: p={p_signup:.4f}")
+
+print("\nQuestion 2 - Platform Analysis:")
+ios_rate = platform_rates.loc['iOS', True] if 'iOS' in platform_rates.index and True in platform_rates.columns else 0
+other_platforms = [plt for plt in platforms if plt != 'iOS']
+other_platform_rate = platform_rates.loc[other_platforms[0], True] if other_platforms and True in platform_rates.columns else 0
+print(f"  iOS users: {ios_rate:.1%} WAU rate")
+print(f"  Other platforms: {other_platform_rate:.1%} WAU rate")
+print(f"  Statistical significance: p={p_platform:.4f}")
+
+print("\nQuestion 3 - Onboarding Impact:")
+print(f"  Completed onboarding: {active_rate_completed:.1%} WAU rate")
+print(f"  Did not complete: {active_rate_not_completed:.1%} WAU rate")
+print(f"  Correlation coefficient: r={onboarding_corr:.4f}")
+
+print("\nQuestion 4 - Load Time Impact:")
+active_mean_load = load_time_stats.loc[True, 'mean'] if True in load_time_stats.index else 0
+inactive_mean_load = load_time_stats.loc[False, 'mean'] if False in load_time_stats.index else 0
+print(f"  Active users avg load time: {active_mean_load:.2f}s")
+print(f"  Inactive users avg load time: {inactive_mean_load:.2f}s")
+print(f"  Correlation coefficient: r={load_time_corr:.4f}")
+
+print("\nQuestion 5 - Conversion Funnel:")
+print(f"  Signup  ->  Onboarding: {signup_to_onboarding_rate:.1%}")
+print(f"  Onboarding  ->  Active: {onboarding_to_active_rate:.1%}")
+print(f"  Overall conversion: {overall_conversion_rate:.1%}")
+
+biggest_dropoff_stage = "Onboarding" if (1 - signup_to_onboarding_rate) > (1 - onboarding_to_active_rate) else "Activation"
+print(f"  Biggest drop-off at: {biggest_dropoff_stage} stage")
+
+print(f"\nTotal figures created: {len(plotly_figs)}")
+print("Analysis complete!")</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+
+        <div class="section">
+                <h2>Conclusion</h2>
+            <div class="conclusion-content">
+                <p><strong>The drop in weekly active users is primarily driven by onboarding failures, with nearly 1 in 4 users abandoning the process before completion.</strong></p>
+
+<p>## Key Takeaways</p>
+
+<ul>
+<li><strong>Onboarding is the critical bottleneck</strong>: Users who complete onboarding are 5.6x more likely to become weekly active (74.4% vs 13.2%)</li>
+<li><strong>Acquisition quality matters</strong>: Organic users significantly outperform paid channels (69.5% vs 45.0% weekly active rates)</li>
+<li><strong>Platform experience gaps exist</strong>: iOS users show 6.6 percentage points higher engagement than Android users</li>
+<li><strong>Performance impacts retention</strong>: Slower load times correlate with reduced user activity</li>
+</ul>
+
+<p>## Recommended Next Steps</p>
+
+<p><strong>Immediate Priority (High Impact)</strong></p>
+<ul>
+<li><strong>Redesign the onboarding experience</strong> - Focus on the 23% abandonment rate through simplified flows, progress indicators, and recovery campaigns</li>
+<li><strong>Optimize Android performance</strong> - Address platform-specific issues causing the engagement gap</li>
+</ul>
+
+<p><strong>Medium-Term Actions</strong></p>
+<ul>
+<li><strong>Refine acquisition strategy</strong> - Reduce ad spend efficiency gaps or improve targeting quality</li>
+<li><strong>Implement performance monitoring</strong> - Target load time improvements, especially for users experiencing &gt;2.5 second delays</li>
+</ul>
+
+<p><strong>Expected Impact</strong>: Improving onboarding completion by just 10 percentage points could increase overall weekly active user rates from 60.4% to 67-70%, representing a significant recovery in user engagement.</p>
+
+<p>The data provides a clear roadmap: fix onboarding first, optimize platform experiences second, and refine acquisition channels third. This prioritized approach should deliver measurable improvements in weekly active user retention.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page footer for PDF -->
+        <div class="page-footer"></div>
+    </body>
+    </html>
