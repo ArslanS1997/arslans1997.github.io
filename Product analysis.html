@@ -1,0 +1,1305 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Deep Analysis Report</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+        <style>
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                line-height: 1.6; 
+                margin: 0; 
+                padding: 20px; 
+                color: #374151; 
+                background-color: #f9fafb;
+            }
+            .container { max-width: 1400px; margin: 0 auto; }
+            .section { 
+                margin-bottom: 24px; 
+                padding: 32px; 
+                background: #ffffff; 
+                border-radius: 12px; 
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                border-left: 4px solid #FF7F7F;
+                page-break-inside: avoid;
+            }
+            h1 { 
+                color: #FF7F7F; 
+                font-size: 32px; 
+                margin-bottom: 12px; 
+                font-weight: 700;
+                page-break-after: avoid;
+            }
+            h2 { 
+                color: #FF7F7F; 
+                font-size: 24px; 
+                margin-bottom: 20px; 
+                font-weight: 600;
+                border-bottom: 2px solid #FF7F7F;
+                padding-bottom: 10px;
+                page-break-after: avoid;
+            }
+            h3 { color: #4b5563; font-size: 18px; margin-bottom: 14px; font-weight: 600; page-break-after: avoid; }
+            h4 { color: #6b7280; font-size: 16px; margin-bottom: 12px; font-weight: 600; page-break-after: avoid; }
+            .question-content { 
+                background: #FFF0F0; 
+                padding: 20px; 
+                border-radius: 8px; 
+                border-left: 3px solid #FF7F7F;
+                page-break-inside: avoid;
+            }
+            .synthesis-content { 
+                background: #f9fafb; 
+                padding: 24px; 
+                border-radius: 8px;
+                margin-bottom: 24px;
+                page-break-inside: avoid;
+            }
+            .visualization-container { 
+                margin: 24px 0; 
+                padding: 20px; 
+                background: #ffffff; 
+                border-radius: 8px; 
+                border: 1px solid #e5e7eb;
+                page-break-inside: avoid;
+            }
+            .code-section { 
+                background: #1f2937; 
+                color: #e5e7eb; 
+                border-radius: 8px; 
+                overflow: hidden;
+                margin: 20px 0;
+                position: relative;
+                page-break-inside: avoid;
+            }
+            .code-header { 
+                background: #FF7F7F; 
+                color: white; 
+                padding: 16px 20px; 
+                cursor: pointer; 
+                font-weight: 500;
+                user-select: none;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .code-header:hover { background: #FF6666; }
+            .code-controls { 
+                display: flex; 
+                gap: 12px; 
+                align-items: center; 
+            }
+            .copy-button { 
+                background: rgba(255, 255, 255, 0.2); 
+                border: none; 
+                color: white; 
+                padding: 8px 16px; 
+                border-radius: 6px; 
+                cursor: pointer; 
+                font-size: 14px;
+                transition: background 0.2s;
+            }
+            .copy-button:hover { background: rgba(255, 255, 255, 0.3); }
+            .copy-button.copied { background: #10b981; }
+            .code-content { 
+                padding: 0; 
+                max-height: 0; 
+                overflow: hidden; 
+                transition: max-height 0.3s ease;
+                position: relative;
+            }
+            .code-content.expanded { max-height: 1200px; overflow-y: auto; }
+            .code-content pre { 
+                margin: 0; 
+                padding: 20px;
+                white-space: pre-wrap; 
+                word-wrap: break-word; 
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                font-size: 14px;
+                line-height: 1.5;
+                background: #1f2937;
+            }
+            .code-content code {
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            .conclusion-content { 
+                background: linear-gradient(135deg, #FFF0F0 0%, #fdf2f8 100%); 
+                padding: 28px; 
+                border-radius: 8px; 
+                border: 1px solid #FF7F7F;
+                font-size: 16px;
+                line-height: 1.7;
+                page-break-inside: avoid;
+            }
+            /* Enhanced conclusion formatting */
+            .conclusion-content h1, .conclusion-content h2, .conclusion-content h3, .conclusion-content h4 {
+                color: #FF7F7F;
+                margin-top: 20px;
+                margin-bottom: 12px;
+                font-weight: 600;
+                page-break-after: avoid;
+            }
+            .conclusion-content h1 { font-size: 22px; }
+            .conclusion-content h2 { font-size: 18px; }
+            .conclusion-content h3 { font-size: 16px; }
+            .conclusion-content h4 { font-size: 14px; }
+            .conclusion-content ul { 
+                margin: 18px 0; 
+                padding-left: 28px;
+                list-style: none;
+                position: relative;
+                page-break-inside: avoid;
+            }
+            .conclusion-content ul li { 
+                margin-bottom: 12px; 
+                line-height: 1.7;
+                position: relative;
+                padding-left: 0;
+            }
+            .conclusion-content ul li:before {
+                content: "•";
+                color: #FF7F7F;
+                font-weight: bold;
+                position: absolute;
+                left: -24px;
+                font-size: 18px;
+            }
+            .conclusion-content ol {
+                margin: 18px 0; 
+                padding-left: 28px;
+                counter-reset: item;
+                page-break-inside: avoid;
+            }
+            .conclusion-content ol li {
+                margin-bottom: 12px; 
+                line-height: 1.7;
+                display: block;
+                position: relative;
+                padding-left: 0;
+            }
+            .conclusion-content ol li:before {
+                content: counter(item) ".";
+                counter-increment: item;
+                color: #FF7F7F;
+                font-weight: bold;
+                position: absolute;
+                left: -28px;
+            }
+            .conclusion-content p { 
+                margin-bottom: 18px; 
+                line-height: 1.7;
+            }
+            .conclusion-content strong { 
+                color: #FF7F7F; 
+                font-weight: 600; 
+            }
+            .conclusion-content em { 
+                font-style: italic; 
+                color: #6b7280;
+            }
+            .synthesis-section { margin-bottom: 18px; page-break-inside: avoid; }
+            .synthesis-section ul {
+                margin: 14px 0;
+                padding-left: 24px;
+                list-style-type: disc;
+            }
+            .synthesis-section ul li {
+                margin-bottom: 8px;
+                line-height: 1.6;
+                list-style-type: disc;
+                display: list-item;
+            }
+            p { margin-bottom: 14px; }
+            /* General list styling for other sections (not conclusion) */
+            ul:not(.conclusion-content ul) { 
+                margin-bottom: 18px; 
+                padding-left: 24px; 
+                list-style-type: disc;
+            }
+            ol:not(.conclusion-content ol) { 
+                margin-bottom: 18px; 
+                padding-left: 24px; 
+                list-style-type: decimal;
+            }
+            li:not(.conclusion-content li) { 
+                margin-bottom: 8px; 
+                line-height: 1.6;
+                display: list-item;
+            }
+            /* Syntax highlighting overrides - matching app's theme */
+            .hljs {
+                background: #1f2937 !important;
+                color: #e5e7eb !important;
+                padding: 20px !important;
+                border-radius: 0 !important;
+            }
+            .hljs-keyword { color: #f59e0b !important; }
+            .hljs-string { color: #10b981 !important; }
+            .hljs-number { color: #3b82f6 !important; }
+            .hljs-comment { color: #6b7280 !important; }
+            .hljs-function { color: #8b5cf6 !important; }
+            .hljs-built_in { color: #FF7F7F !important; }
+            
+            /* PDF/Print Specific Styles */
+            @media print {
+                body {
+                    background-color: white !important;
+                    padding: 8mm;
+                    font-size: 14pt;
+                    line-height: 1.5;
+                    color: #000 !important;
+                }
+                .container {
+                    max-width: none;
+                    margin: 0;
+                }
+                .section {
+                    background: white !important;
+                    box-shadow: none !important;
+                    border-radius: 0 !important;
+                    border-left: 2pt solid #FF7F7F !important;
+                    padding: 18pt;
+                    margin-bottom: 15pt;
+                    page-break-inside: avoid;
+                    margin-top: 0 !important;
+                    padding-top: 20pt !important;
+                }
+                /* Don't add page break before the first section */
+                .section:first-child {
+                    page-break-before: avoid;
+                    margin-top: 0 !important;
+                    padding-top: 18pt !important;
+                }
+                
+                /* Larger fonts for first page section */
+                .section:first-child h1 {
+                    font-size: 27pt !important;
+                    margin-bottom: 18pt;
+                }
+                .section:first-child h2 {
+                    font-size: 23pt !important;
+                    margin-bottom: 15pt;
+                }
+                .section:first-child .question-content {
+                    font-size: 16pt !important;
+                    line-height: 1.6;
+                    padding: 18pt;
+                }
+                .section:first-child .question-content p {
+                    font-size: 16pt !important;
+                    margin-bottom: 12pt;
+                }
+                
+                /* Hide code section completely in PDF */
+                .section:has(.code-section),
+                .section .code-section,
+                .code-section {
+                    display: none !important;
+                }
+                h1 {
+                    font-size: 24pt;
+                    color: #FF7F7F !important;
+                    page-break-after: avoid;
+                    margin-top: 0;
+                    margin-bottom: 15pt;
+                }
+                h2 {
+                    font-size: 20pt;
+                    color: #FF7F7F !important;
+                    page-break-after: avoid;
+                    border-bottom: 1pt solid #FF7F7F !important;
+                    margin-bottom: 12pt;
+                }
+                h3 {
+                    font-size: 16pt;
+                    color: #333 !important;
+                    page-break-after: avoid;
+                    margin-bottom: 10pt;
+                }
+                h4 {
+                    font-size: 14pt;
+                    color: #333 !important;
+                    page-break-after: avoid;
+                    margin-bottom: 10pt;
+                }
+                p {
+                    font-size: 13pt;
+                    margin-bottom: 10pt;
+                    line-height: 1.5;
+                }
+                .question-content {
+                    background: #f9f9f9 !important;
+                    border-left: 2pt solid #FF7F7F !important;
+                    border-radius: 0 !important;
+                    padding: 15pt;
+                    page-break-inside: avoid;
+                    font-size: 13pt;
+                }
+                .synthesis-content {
+                    background: #f9f9f9 !important;
+                    border: 1pt solid #ddd !important;
+                    border-radius: 0 !important;
+                    padding: 15pt;
+                    page-break-inside: avoid;
+                    font-size: 13pt;
+                }
+                .conclusion-content {
+                    background: #f9f9f9 !important;
+                    border: 1pt solid #FF7F7F !important;
+                    border-radius: 0 !important;
+                    padding: 18pt;
+                    page-break-inside: avoid;
+                    font-size: 16pt !important;
+                    line-height: 1.6;
+                }
+                
+                /* Larger fonts for conclusion section */
+                .conclusion-content h1 {
+                    font-size: 25pt !important;
+                    margin-bottom: 15pt;
+                }
+                .conclusion-content h2 {
+                    font-size: 21pt !important;
+                    margin-bottom: 12pt;
+                }
+                .conclusion-content h3 {
+                    font-size: 19pt !important;
+                    margin-bottom: 10pt;
+                }
+                .conclusion-content h4 {
+                    font-size: 17pt !important;
+                    margin-bottom: 10pt;
+                }
+                .conclusion-content p {
+                    font-size: 16pt !important;
+                    margin-bottom: 12pt;
+                    line-height: 1.6;
+                }
+                .conclusion-content ul li {
+                    font-size: 16pt !important;
+                    margin-bottom: 10pt;
+                    line-height: 1.6;
+                }
+                .conclusion-content ol li {
+                    font-size: 16pt !important;
+                    margin-bottom: 10pt;
+                    line-height: 1.6;
+                }
+                
+                /* Chart/Visualization specific rules */
+                .visualization-container {
+                    background: white !important;
+                    border: 1pt solid #ddd !important;
+                    border-radius: 0 !important;
+                    padding: 12pt;
+                    page-break-before: auto;
+                    page-break-after: auto;
+                    page-break-inside: avoid !important;
+                    margin: 12pt 0;
+                    max-height: none !important;
+                    height: auto !important;
+                    overflow: visible !important;
+                }
+                /* Plotly charts - ensure they don't break and fit properly */
+                .plotly-graph-div {
+                    page-break-inside: avoid !important;
+                    page-break-before: auto !important;
+                    page-break-after: auto !important;
+                    max-height: 60vh !important;
+                    max-width: 100% !important;
+                    height: auto !important;
+                    overflow: visible !important;
+                    margin: 6pt 0 !important;
+                }
+                /* If chart is too tall, allow it to take a full page */
+                .visualization-container:has(.plotly-graph-div) {
+                    page-break-before: auto;
+                    page-break-after: auto;
+                    page-break-inside: avoid;
+                    max-height: 85vh;
+                    overflow: visible;
+                }
+                /* Hide all code-related elements */
+                .code-section,
+                .code-header,
+                .code-content,
+                .code-controls,
+                .copy-button,
+                pre code,
+                .hljs {
+                    display: none !important;
+                }
+                /* Page breaks */
+                .section {
+                    page-break-before: always;
+                    page-break-after: auto;
+                    page-break-inside: avoid;
+                }
+                /* Ensure section headings don't get orphaned */
+                .section h2 {
+                    page-break-after: avoid;
+                    orphans: 2;
+                    widows: 2;
+                }
+                /* Better control for large content blocks */
+                .synthesis-content {
+                    orphans: 2;
+                    widows: 2;
+                }
+                /* Ensure tables don't break poorly */
+                .section table {
+                    page-break-inside: avoid;
+                    margin: 10pt 0;
+                    font-size: 12pt;
+                }
+                .section table th,
+                .section table td {
+                    padding: 6pt 10pt;
+                    font-size: 12pt;
+                }
+                /* List styling for PDF */
+                ul, ol {
+                    margin: 10pt 0;
+                    padding-left: 20pt;
+                }
+                li {
+                    margin-bottom: 6pt;
+                    font-size: 13pt;
+                    line-height: 1.5;
+                }
+                /* Conclusion specific styling */
+                .conclusion-content ul li:before {
+                    color: #FF7F7F !important;
+                }
+                .conclusion-content ol li:before {
+                    color: #FF7F7F !important;
+                }
+                .conclusion-content strong {
+                    color: #FF7F7F !important;
+                }
+            }
+            
+            /* Additional PDF optimization */
+            @page {
+                size: A4;
+                margin: 15mm 12mm 20mm 12mm;
+            }
+            
+            
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.highlightAll();
+                
+                // Add print-specific functionality
+                window.addEventListener('beforeprint', function() {
+                    // Ensure all Plotly graphs are visible and properly sized for printing
+                    const plotlyDivs = document.querySelectorAll('.plotly-graph-div');
+                    plotlyDivs.forEach(function(div) {
+                        if (window.Plotly && window.Plotly.Plots) {
+                            try {
+                                // Resize plot for print
+                                window.Plotly.Plots.resize(div);
+                            } catch (e) {
+                                console.log('Note: Could not resize plot for print:', e);
+                            }
+                        }
+                    });
+                    
+                    // Expand any collapsed code sections for PDF
+                    const codeContents = document.querySelectorAll('.code-content');
+                    codeContents.forEach(function(content) {
+                        content.classList.add('expanded');
+                    });
+                });
+                
+                // Add a small delay for plots to render when window loads
+                setTimeout(function() {
+                    const plotlyDivs = document.querySelectorAll('.plotly-graph-div');
+                    if (plotlyDivs.length > 0 && window.Plotly) {
+                        plotlyDivs.forEach(function(div) {
+                            try {
+                                window.Plotly.Plots.resize(div);
+                            } catch (e) {
+                                // Silent fail - plot may not be fully initialized yet
+                            }
+                        });
+                    }
+                }, 2000);
+            });
+
+            function toggleCode() {
+                const content = document.getElementById('codeContent');
+                const header = document.getElementById('codeToggle');
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    header.textContent = 'View Generated Code (Click to expand)';
+                } else {
+                    content.classList.add('expanded');
+                    header.textContent = 'Generated Code (Click to collapse)';
+                }
+            }
+
+            function copyCode() {
+                const codeElement = document.getElementById('rawCode');
+                const copyButton = document.getElementById('copyButton');
+                
+                if (codeElement) {
+                    const textToCopy = codeElement.textContent || codeElement.innerText;
+                    
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(textToCopy).then(function() {
+                            copyButton.textContent = 'Copied!';
+                            copyButton.classList.add('copied');
+                            setTimeout(function() {
+                                copyButton.textContent = 'Copy';
+                                copyButton.classList.remove('copied');
+                            }, 2000);
+                        }).catch(function(err) {
+                            console.error('Failed to copy: ', err);
+                            fallbackCopyTextToClipboard(textToCopy, copyButton);
+                        });
+                    } else {
+                        fallbackCopyTextToClipboard(textToCopy, copyButton);
+                    }
+                }
+            }
+
+            function fallbackCopyTextToClipboard(text, button) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.top = '0';
+                textArea.style.left = '0';
+                textArea.style.position = 'fixed';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        button.textContent = 'Copied!';
+                        button.classList.add('copied');
+                        setTimeout(function() {
+                            button.textContent = 'Copy';
+                            button.classList.remove('copied');
+                        }, 2000);
+                    } else {
+                        button.textContent = 'Failed';
+                        setTimeout(function() {
+                            button.textContent = 'Copy';
+                        }, 2000);
+                    }
+                } catch (err) {
+                    button.textContent = 'Failed';
+                    setTimeout(function() {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                }
+                document.body.removeChild(textArea);
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+        <div class="section">
+                <h1>Deep Analysis Report</h1>
+                <h2>Original Question</h2>
+                <div class="question-content">
+                    <p>Why are users not using Feature X after launch?</p>
+                </div>
+                
+                <h2>Detailed Research Questions</h2>
+                <div class="question-content">
+                    <ol>
+<li>
+<p>How does Feature X usage vary across different user segments (Power User vs others) and plan types (Enterprise, Pro, etc.), and which combinations show the lowest adoption rates?</p>
+</li>
+<li>
+<p>Is there a correlation between onboarding completion status and Feature X usage scores, suggesting that incomplete onboarding may be hindering feature discovery or understanding?</p>
+</li>
+<li>
+<p>How does Feature X usage differ between users on the Old UI versus New UI, and could interface design be impacting feature accessibility or visibility?</p>
+</li>
+<li>
+<p>What is the relationship between days_since_launch and feature_x_usage_score - are users who joined closer to launch using the feature more or less than those who joined later?</p>
+</li>
+<li>
+<p>What constitutes the feature_x_usage_score scale, and what percentage of users fall into low usage categories (e.g., scores below 3 or 5) that would indicate non-adoption versus light usage?</p>
+</li>
+</ol>
+                </div>
+        </div>
+
+
+        <div class="section">
+                <h2>Analysis & Insights</h2>
+                <div class="synthesis-content">
+                    <div class="synthesis-section"><h1>Feature X Usage Analysis: Understanding Low Adoption After Launch</h1>
+<h2>Executive Summary</h2>
+<p>Our analysis investigated why users are not adopting Feature X after its launch. The data reveals a concerning pattern: <strong>68.9% of users have low usage</strong> (below score 3) and <strong>50% have zero usage</strong>, indicating significant adoption challenges that require immediate attention.</p>
+<h2>Analysis Approach</h2>
+<p>We conducted a comprehensive multi-dimensional analysis examining user segmentation, onboarding effectiveness, UI design impact, temporal patterns, and overall usage distribution. The analysis processed 1,000 user records across 7 key variables, using statistical correlation analysis, comparative testing, and distribution analysis to identify root causes.</p>
+<h2>Key Findings</h2>
+<h3>1. Critical User Segments with Poor Adoption</h3>
+<p><strong>Problem Identified</strong>: Specific user combinations show extremely low feature adoption:<br/>
+- <strong>Free Plan + New Users</strong>: Average usage score of only 0.08 (165 users)<br/>
+- <strong>Free Plan + Casual Users</strong>: Average usage score of 0.24 (172 users)<br/>
+- <strong>Pro Plan + New Users</strong>: Average usage score of 0.38 (133 users)</p>
+<p><strong>Insight</strong>: Free tier users, particularly new users, are almost completely ignoring Feature X, suggesting either lack of awareness, perceived value, or accessibility barriers.</p>
+<h3>2. Onboarding Process Impact</h3>
+<p><strong>Strong Correlation Discovered</strong>: Users who completed onboarding show significantly higher feature usage:<br/>
+- <strong>Completed Onboarding</strong>: Average usage score of 2.98<br/>
+- <strong>Incomplete Onboarding</strong>: Average usage score of 0.75<br/>
+- <strong>Statistical Significance</strong>: Correlation of 0.329 (p &lt; 0.001)</p>
+<p><strong>Insight</strong>: The onboarding process is critical for feature adoption, but many users aren't completing it or it's not effectively introducing Feature X.</p>
+<h3>3. UI Version Performance Gap</h3>
+<p><strong>Significant Design Impact</strong>: The UI version dramatically affects feature usage:<br/>
+- <strong>Old UI Users</strong>: Average usage score of 3.15 (408 users)<br/>
+- <strong>New UI Users</strong>: Average usage score of 1.64 (592 users)<br/>
+- <strong>Statistical Significance</strong>: Highly significant difference (p &lt; 0.001)</p>
+<p><strong>Critical Finding</strong>: The new UI design is actually hindering feature adoption compared to the old interface, suggesting usability or discoverability issues.</p>
+<h3>4. Launch Timing Effects</h3>
+<p><strong>Declining Adoption Over Time</strong>: Analysis reveals a negative correlation (-0.228) between days since launch and feature usage, indicating that:<br/>
+- Early adopters used the feature more<br/>
+- Later users are increasingly less likely to adopt it<br/>
+- The launch momentum has not been sustained</p>
+<h3>5. Overall Usage Distribution Crisis</h3>
+<p><strong>Adoption Reality Check</strong>:<br/>
+- <strong>56.9% of users</strong> score below 1 (minimal usage)<br/>
+- <strong>68.9% of users</strong> score below 3 (low usage threshold)<br/>
+- <strong>80.7% of users</strong> score below 5 (light usage threshold)<br/>
+- <strong>50% of users</strong> have zero usage</p>
+<h2>Root Cause Analysis</h2>
+<p>The convergence of evidence points to four primary factors:</p>
+<ol>
+<li><strong>Onboarding Failure</strong>: Incomplete or ineffective onboarding is the strongest predictor of non-adoption</li>
+<li><strong>UI Regression</strong>: The new UI has made Feature X less discoverable or usable than the previous version</li>
+<li><strong>Segment-Specific Barriers</strong>: Free tier and new users face particular challenges in feature adoption</li>
+<li><strong>Declining Launch Momentum</strong>: Post-launch engagement strategies have been insufficient</li>
+</ol>
+<h2>Recommendations</h2>
+<h3>Immediate Actions (0-30 days)</h3>
+<ol>
+<li><strong>UI Emergency Review</strong>: Conduct usability testing comparing old vs. new UI for Feature X accessibility</li>
+<li><strong>Onboarding Audit</strong>: Review and redesign the onboarding flow to better highlight Feature X</li>
+<li><strong>Free Tier Strategy</strong>: Develop targeted campaigns for Free Plan users, especially new users</li>
+</ol>
+<h3>Medium-term Initiatives (1-3 months)</h3>
+<ol>
+<li><strong>Segmented Re-engagement</strong>: Launch targeted campaigns for the 569 users with minimal usage</li>
+<li><strong>UI Optimization</strong>: Implement design changes to improve Feature X discoverability in the new interface</li>
+<li><strong>Onboarding Completion Drive</strong>: Implement strategies to increase onboarding completion rates</li>
+</ol>
+<h3>Long-term Strategy (3+ months)</h3>
+<ol>
+<li><strong>Feature Value Communication</strong>: Develop clearer value propositions for different user segments</li>
+<li><strong>Continuous Monitoring</strong>: Establish ongoing metrics tracking for feature adoption by segment</li>
+<li><strong>User Feedback Integration</strong>: Implement systematic feedback collection to understand adoption barriers</li>
+</ol>
+<h2>Success Metrics to Track</h2>
+<ul>
+<li>Increase onboarding completion rate from current levels</li>
+<li>Reduce zero-usage rate from 50% to below 25%</li>
+<li>Improve Free-New User adoption from 0.08 to above 1.0</li>
+<li>Achieve UI parity between old and new interface usage rates</li>
+</ul>
+<p>The data clearly shows that Feature X's low adoption is not due to a single factor but rather a combination of onboarding, UI design, and user segment-specific challenges that require coordinated intervention across multiple product areas.</p></div>
+        </div>
+
+                <div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="65856a1a-ed3c-4b9c-86d4-a3748aec6443" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("65856a1a-ed3c-4b9c-86d4-a3748aec6443")) {                    Plotly.newPlot(                        "65856a1a-ed3c-4b9c-86d4-a3748aec6443",                        [{"colorbar":{"title":{"text":"Average Feature X Usage Score"}},"colorscale":[[0.0,"rgb(49,54,149)"],[0.1,"rgb(69,117,180)"],[0.2,"rgb(116,173,209)"],[0.3,"rgb(171,217,233)"],[0.4,"rgb(224,243,248)"],[0.5,"rgb(255,255,191)"],[0.6,"rgb(254,224,144)"],[0.7,"rgb(253,174,97)"],[0.8,"rgb(244,109,67)"],[0.9,"rgb(215,48,39)"],[1.0,"rgb(165,0,38)"]],"text":[[1.89,null,6.87],[0.24,0.08,null],[1.14,0.38,4.57]],"textfont":{"size":12},"texttemplate":"%{text}","x":["Casual User","New User","Power User"],"y":["Enterprise","Free","Pro"],"z":[[1.8936507936507936,null,6.8710344827586205],[0.24127906976744187,0.07515151515151515,null],[1.14251968503937,0.3781954887218045,4.574358974358974]],"type":"heatmap"}],                        {"annotations":[{"arrowcolor":"red","arrowhead":2,"font":{"color":"red","size":10},"showarrow":true,"text":" Lowest","x":1,"y":1}],"font":{"size":12},"height":400,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Feature X Usage by Plan Type and User Segment\u003cbr\u003e\u003csub\u003eDarker red indicates lower adoption rates\u003c\u002fsub\u003e"},"xaxis":{"title":{"text":"User Segment"}},"yaxis":{"title":{"text":"Plan Type"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="c68bd3f1-8bc1-41a4-af01-fa3431ac81f9" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("c68bd3f1-8bc1-41a4-af01-fa3431ac81f9")) {                    Plotly.newPlot(                        "c68bd3f1-8bc1-41a4-af01-fa3431ac81f9",                        [{"hovertemplate":"onboarding_completed=True\u003cbr\u003eOnboarding Completed (0=No, 1=Yes)=%{x}\u003cbr\u003eFeature X Usage Score=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"True","marker":{"color":"#636efa","opacity":0.6,"symbol":"circle"},"mode":"markers","name":"True","orientation":"v","showlegend":true,"x":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"xaxis":"x","y":[10.0,2.5,8.0,0.0,1.7,0.0,2.1,0.0,0.0,2.0,0.0,0.0,6.4,2.0,2.1,0.0,0.0,8.9,3.1,0.0,0.6,1.5,0.0,4.2,0.0,0.0,11.8,0.0,8.2,0.4,0.0,0.0,2.6,0.0,1.0,0.0,10.1,1.2,1.1,1.0,10.6,1.9,0.0,7.0,6.2,0.0,0.0,0.0,0.0,1.9,0.0,2.5,5.6,5.8,0.0,4.9,0.0,0.0,1.2,11.8,0.1,3.7,4.6,0.0,0.0,0.0,6.1,0.0,3.3,11.1,3.3,0.0,6.9,0.0,0.6,3.3,0.0,4.0,7.6,0.0,5.2,0.0,0.4,1.5,4.8,1.8,2.5,0.0,0.4,0.0,4.0,3.1,0.0,0.5,9.1,0.0,2.1,4.7,6.6,2.7,0.9,6.0,0.0,5.9,9.1,8.8,5.6,0.4,1.9,0.0,0.0,7.9,1.9,10.6,0.0,5.3,0.9,6.0,5.2,12.3,0.0,5.8,1.0,10.0,0.0,0.0,3.9,8.5,4.8,10.9,6.8,0.1,0.0,6.1,8.7,0.4,4.7,1.2,0.0,0.0,0.0,0.0,7.0,0.0,0.0,1.2,1.9,9.9,1.9,1.3,1.5,9.8,0.0,0.7,0.0,3.3,0.0,0.0,3.1,1.5,1.2,2.8,0.0,6.6,4.0,0.0,0.0,1.6,4.3,4.9,2.5,0.0,3.5,15.7,0.0,3.8,0.0,0.0,0.4,0.0,6.3,0.0,9.2,4.8,2.3,6.8,10.0,7.9,8.5,2.2,3.7,0.9,9.2,3.3,9.2,3.2,6.1,11.1,10.1,12.0,0.0,0.0,0.0,0.0,7.3,4.3,0.9,5.5,0.0,5.3,2.6,11.5,0.0,0.0,2.3,0.0,0.0,0.0,0.0,8.1,8.2,4.4,0.0,3.2,0.0,4.6,0.0,5.1,0.0,0.0,5.4,0.1,0.0,0.0,3.2,0.0,0.8,6.7,0.5,0.0,3.0,8.2,0.8,0.0,0.0,0.0,3.9,7.8,0.0,3.8,7.3,0.4,0.0,0.0,0.0,0.0,0.0,1.3,7.0,0.0,5.5,0.0,3.0,0.5,0.3,0.0,2.5,5.5,0.0,5.9,5.5,6.5,0.0,5.6,0.0,11.4,0.0,3.2,0.0,2.5,4.5,6.5,0.0,0.3,0.0,6.7,5.8,0.9,0.0,2.7,0.0,10.2,0.0,0.8,4.2,5.3,10.9,0.0,3.7,0.0,0.0,2.4,0.0,0.0,11.6,0.3,8.3,2.7,4.3,0.0,0.0,10.0,8.3,3.5,0.0,0.0,10.9,8.9,2.7,0.0,0.9,1.6,0.0,4.7,0.0,0.1,0.0,0.0,0.0,1.7,0.0,0.0,6.6,10.8,2.4,7.4,3.7,1.2,1.9,6.9,0.0,0.7,0.0,0.8,1.9,5.6,4.5,0.0,0.7,2.1,0.0,7.6,0.0,2.5,3.0,0.0,0.0,11.0,3.6,0.0,7.1,1.3,0.0,0.0,0.0,0.0,4.3,7.4,0.0,0.0,9.3,1.6,1.6,3.3,4.2,0.0,2.9,9.4,0.0,7.6,0.5,4.5,0.0,8.4,3.8,0.0,0.4,6.4,7.5,0.0,1.0,8.4,0.0,3.3,4.3,0.0,13.5,0.0,5.5,6.4,0.0,0.0,0.0,5.4,3.6,0.4,8.3,0.0,6.2,0.0,0.0,10.5,5.0,9.0,0.0,0.0,5.4,0.0,7.9,0.0,0.0,7.7,0.0,10.6,0.0,6.3,3.8,0.1,1.3,6.6,0.5,5.3,3.5,0.0,4.7,0.0,0.0,0.0,2.7,8.8,0.9,5.6,2.3,4.8,0.0,0.0,10.1,0.5,2.5,7.4,0.0,7.2,0.0,2.2,0.0,0.8,2.4,0.4,0.0,6.1,4.5,9.9,0.1,0.0,0.1,5.6,9.3,0.0,8.2,0.0,1.0,8.0,2.1,9.3,4.3,3.8,0.0,6.2,0.0,4.7,4.9,4.8,1.7,7.2,0.0,0.9,4.9,8.4,0.0,0.0,6.2,0.0,8.6,7.6,0.0,0.0,0.0,10.3,0.0,8.1,7.2,6.4,0.0,9.2,10.4,0.0,0.0,0.0,0.0,0.0,3.1,4.2,0.0,0.0,2.7,0.1,9.3,1.4,1.6,1.3,5.2,9.4,0.0,7.2,3.1,0.0,3.5,8.1,0.0,0.0,0.1,0.0,0.0,3.1,4.5,2.7,3.3,0.0,3.5,0.0,4.8,4.6,4.4,3.9,4.8,7.1,0.0,0.0,2.3,6.0,0.0,0.1,0.0,8.6,1.4,1.4,2.4,0.0,0.0,10.1,11.1,7.7,0.0,4.2,3.6,0.2,10.6,6.1,0.0,0.0,1.2,0.0,0.0,0.0,6.7,2.2,4.3,0.0,0.0,0.0,0.0,8.6,2.3,3.5,0.3,5.2,4.3,0.0,0.0,4.5,0.0,10.6,2.5,3.2,0.0,0.0,0.0,0.0,2.0,0.0,2.1,9.4,3.5,0.0,2.1,0.0,5.4,0.0,0.0,0.0,0.0,0.0,0.0,5.1,4.4,3.4,5.8,1.5,6.7,0.0,0.0,0.0,5.9,0.0,4.0,0.0,0.0,1.2,3.4,0.0,7.0,0.0,0.0,0.4,0.5,8.4,9.2,0.0,0.0,8.9,4.3,0.0,0.0,0.4,5.0,10.4,2.1,4.8,0.0,0.0,0.0,0.0,2.8,9.3,3.0,0.8,7.1,6.9,4.2,0.0,0.0,0.3,4.9,0.0,3.0,0.0,4.5,7.5,0.0,12.4,14.8,1.4,4.4,0.0],"yaxis":"y","type":"scatter"},{"hovertemplate":"onboarding_completed=False\u003cbr\u003eOnboarding Completed (0=No, 1=Yes)=%{x}\u003cbr\u003eFeature X Usage Score=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"False","marker":{"color":"#EF553B","opacity":0.6,"symbol":"circle"},"mode":"markers","name":"False","orientation":"v","showlegend":true,"x":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"xaxis":"x","y":[1.7,0.8,0.0,1.4,1.6,4.7,0.0,6.1,0.0,6.3,0.0,0.0,7.4,3.7,0.0,2.9,0.0,4.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,4.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3,0.0,0.0,3.9,2.1,0.0,0.0,2.7,0.0,0.0,0.0,1.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.5,0.0,0.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.7,3.2,8.7,0.0,0.0,2.5,0.0,0.0,0.0,0.0,4.8,0.0,0.0,2.7,0.0,6.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,3.3,0.0,1.9,0.9,0.6,0.0,0.0,0.0,0.0,0.0,0.8,0.0,0.0,0.0,0.0,0.0,0.0,5.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.2,2.0,0.2,0.0,0.0,2.5,0.0,0.0,0.0,0.0,0.0,6.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.5,0.0,0.9,0.0,0.8,0.0,0.0,0.0,0.0,0.0,0.0,1.5,0.0,0.0,1.4,0.0,3.0,6.0,0.0,0.0,2.5,0.0,1.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.4,0.0,0.0,0.0,0.0,0.0,0.0,4.5,0.0,1.4,1.4,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,2.8,0.0,4.5,2.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.9,0.0,5.2,0.0,0.0,0.9,4.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.8,0.0,4.7,2.0,2.3,0.0,0.0,0.0,0.0,0.0,0.0,5.3,0.0,0.0,0.0,0.0,0.0,0.6,0.0,0.0,1.9,4.0,0.0,0.0,0.9,0.0,0.0,0.0,8.4,0.0,0.0,0.0,1.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.8,1.0,0.0,0.0,3.6,9.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0],"yaxis":"y","type":"scatter"},{"line":{"color":"red","dash":"dash","width":2},"mode":"lines","name":"Trendline","x":[0,1],"y":[0.7518404907975446,2.984866468842731],"type":"scatter"}],                        {"annotations":[{"bgcolor":"white","bordercolor":"black","borderwidth":1,"showarrow":false,"text":"Correlation: 0.329","x":0.5,"y":14.129999999999999}],"height":400,"legend":{"title":{"text":"onboarding_completed"},"tracegroupgap":0},"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Feature X Usage vs Onboarding Completion Status"},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Onboarding Completed (0=No, 1=Yes)"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Feature X Usage Score"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="a5c7d2d9-e7f7-4492-a50d-36c81d0f22cd" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a5c7d2d9-e7f7-4492-a50d-36c81d0f22cd")) {                    Plotly.newPlot(                        "a5c7d2d9-e7f7-4492-a50d-36c81d0f22cd",                        [{"alignmentgroup":"True","hovertemplate":"ui_version=%{x}\u003cbr\u003eFeature X Usage Score=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"New UI","marker":{"color":"#636efa"},"name":"New UI","notched":false,"offsetgroup":"New UI","orientation":"v","showlegend":true,"x":["New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI","New UI"],"x0":" ","xaxis":"x","y":[10.0,0.0,0.0,2.1,0.0,1.4,2.0,1.6,0.0,4.7,2.0,2.1,0.0,0.0,0.0,3.1,0.0,0.0,0.0,4.2,0.0,0.0,0.4,0.0,0.0,0.0,1.2,1.1,1.9,0.0,7.0,6.2,0.0,0.0,3.7,0.0,0.0,1.9,0.0,5.6,5.8,0.0,4.9,0.0,0.0,4.6,0.0,0.0,0.0,0.0,11.1,3.3,0.0,4.0,7.6,0.0,5.2,0.0,0.0,4.8,1.8,2.5,0.0,0.4,0.0,0.0,0.0,0.0,4.7,6.6,2.7,0.0,0.9,6.0,0.0,9.1,5.6,0.4,1.9,0.0,0.0,4.4,0.0,5.3,0.9,0.0,0.0,5.2,0.0,5.8,1.0,0.0,3.9,8.5,4.8,0.0,6.8,0.1,0.0,6.1,0.0,0.4,4.7,3.9,0.0,0.0,2.1,0.0,0.0,7.0,0.0,1.9,0.0,1.3,0.0,0.7,0.0,3.3,0.0,3.1,1.9,0.0,2.8,0.0,0.0,0.0,0.0,6.6,4.0,0.0,0.0,1.6,4.3,2.5,0.0,0.0,0.0,3.8,0.0,0.0,0.4,0.0,0.0,0.0,2.3,6.8,0.0,0.7,10.0,0.0,2.2,3.7,0.9,9.2,0.0,3.3,6.1,0.0,0.0,0.0,0.0,0.0,7.3,4.3,5.5,0.0,5.3,0.0,2.6,0.0,0.0,0.0,0.0,0.0,2.3,0.0,0.0,0.0,0.0,0.0,4.4,0.0,0.0,3.2,8.7,0.0,0.0,2.5,0.0,5.1,0.0,0.0,0.0,0.0,5.4,0.1,0.0,0.8,6.7,0.5,0.0,3.0,0.0,0.0,0.0,0.0,3.9,0.0,0.0,0.0,0.0,0.0,7.3,0.4,0.0,0.0,0.0,0.0,0.0,2.0,0.0,5.5,0.0,0.5,0.3,0.0,2.5,0.0,5.5,6.5,0.0,0.0,0.0,1.9,0.9,0.0,0.0,2.5,6.5,0.0,0.3,0.0,5.8,0.0,0.0,0.0,0.0,0.0,0.8,0.8,0.0,4.2,5.3,10.9,0.0,0.0,0.0,0.0,0.0,0.0,0.3,8.3,0.0,0.0,4.3,0.0,0.0,0.0,0.0,3.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.0,0.0,0.0,4.7,0.0,0.0,0.0,0.1,0.0,0.0,0.0,1.7,0.0,0.0,7.4,0.0,0.0,3.7,1.2,6.9,0.0,0.7,0.0,0.0,0.8,0.9,0.0,1.9,5.6,0.8,4.5,0.7,2.1,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,1.5,0.0,7.1,1.3,0.0,0.0,0.0,0.0,1.4,0.0,4.3,7.4,0.0,0.0,0.0,3.3,0.0,0.0,4.2,2.5,0.0,0.0,0.0,1.2,0.0,4.5,0.0,0.0,0.0,3.8,0.0,0.0,6.4,0.0,1.0,8.4,0.0,3.3,0.0,0.0,0.0,0.0,0.0,5.4,3.6,0.4,0.0,6.2,0.0,0.0,9.0,0.0,4.0,0.0,0.0,0.0,7.7,0.0,6.3,0.1,0.0,3.5,0.0,0.0,4.7,0.0,0.0,0.0,2.7,0.0,1.4,5.6,0.0,4.8,0.0,0.0,0.0,0.0,0.0,0.5,2.5,0.0,0.0,4.5,7.2,0.0,2.2,0.0,0.8,2.4,0.4,6.1,9.9,0.0,0.0,0.1,0.0,0.0,5.6,0.0,0.0,1.0,0.0,4.3,0.0,0.0,0.0,0.0,4.9,7.2,0.0,2.8,0.0,4.5,4.9,0.0,0.0,6.2,0.0,0.0,0.0,0.0,0.0,8.1,7.2,6.4,0.0,0.0,0.0,0.0,4.2,3.9,0.0,0.0,2.7,1.6,1.3,0.0,0.0,5.2,4.1,0.0,0.0,0.0,3.5,0.0,0.0,0.0,3.1,3.3,0.0,0.0,0.0,3.5,4.6,4.4,4.8,0.0,0.0,0.0,0.0,0.0,4.7,2.0,1.4,2.4,2.3,0.0,0.0,0.0,10.1,0.0,0.0,4.2,10.6,0.0,6.1,0.0,0.0,0.0,0.0,1.2,0.0,0.0,0.0,0.0,4.3,0.0,0.0,0.0,3.5,0.6,0.3,5.2,4.3,0.0,0.0,2.5,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,2.1,0.0,0.0,5.4,0.0,0.0,0.0,0.0,0.0,4.4,0.0,3.4,5.8,0.0,6.7,0.0,0.0,0.0,0.0,4.0,0.0,0.0,1.9,0.0,0.0,0.0,0.0,3.4,0.0,0.0,0.0,0.0,0.0,8.4,9.2,0.0,0.0,8.9,4.3,0.0,1.0,0.0,0.0,10.4,0.0,3.6,0.0,0.0,2.8,6.9,4.2,0.0,0.0,4.9,0.0,4.5,0.0,0.0,0.0,0.0,1.4,4.4,0.0,0.0,0.0,0.0,0.0],"y0":" ","yaxis":"y","type":"box"},{"alignmentgroup":"True","hovertemplate":"ui_version=%{x}\u003cbr\u003eFeature X Usage Score=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Old UI","marker":{"color":"#EF553B"},"name":"Old UI","notched":false,"offsetgroup":"Old UI","orientation":"v","showlegend":true,"x":["Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI","Old UI"],"x0":" ","xaxis":"x","y":[2.5,8.0,1.7,1.7,0.8,0.0,0.0,0.0,6.4,8.9,6.1,0.6,1.5,6.3,0.0,11.8,0.0,8.2,2.6,0.0,1.0,0.0,10.1,1.0,7.4,10.6,0.0,0.0,2.9,2.5,4.9,0.0,0.0,1.2,11.8,0.1,3.7,0.0,6.1,0.0,3.3,0.0,6.9,0.6,3.3,0.0,0.0,0.0,0.4,1.5,0.0,0.0,4.0,3.1,0.5,9.1,2.1,0.0,3.0,0.0,5.9,8.8,0.0,0.0,7.9,0.0,1.9,10.6,0.0,6.0,12.3,0.0,0.0,10.0,0.0,1.3,0.0,10.9,8.7,1.2,0.0,0.0,1.2,9.9,1.9,2.7,1.5,9.8,0.0,0.0,0.0,1.5,0.0,1.2,4.9,0.0,3.5,0.0,15.7,0.0,0.0,0.0,6.3,9.2,4.8,1.5,0.0,7.9,8.5,0.0,9.2,3.2,11.1,10.1,12.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.9,0.0,11.5,0.0,0.0,8.1,8.2,0.0,0.0,0.0,3.2,0.0,4.7,4.6,0.0,0.0,0.0,4.8,0.0,3.2,0.0,0.0,2.7,8.2,0.8,6.3,7.8,0.0,3.8,0.0,0.0,0.0,0.0,1.3,7.0,0.0,0.0,0.0,3.0,5.5,0.0,5.9,5.6,3.3,11.4,3.2,0.0,0.6,4.5,6.7,0.9,2.7,0.0,10.2,0.0,0.0,0.0,3.7,0.0,0.0,0.0,0.0,5.0,2.4,0.0,11.6,0.0,0.0,0.0,2.7,10.0,8.3,6.2,2.0,0.2,0.0,2.5,10.9,8.9,0.0,0.0,2.7,6.8,1.6,0.0,0.0,6.6,10.8,2.4,0.0,1.9,1.5,0.0,7.6,2.5,0.0,0.0,11.0,3.6,0.0,0.0,3.0,9.3,6.0,1.6,1.6,2.9,9.4,0.0,7.6,0.5,8.4,0.0,0.4,7.5,0.0,4.3,0.0,13.5,5.5,6.4,0.0,6.0,0.0,0.0,0.0,8.3,0.0,0.0,0.0,10.5,0.0,5.0,0.0,0.0,5.4,7.9,0.0,0.0,0.0,10.6,3.8,1.3,6.6,0.5,0.0,5.3,0.0,8.8,0.9,2.3,0.0,10.1,7.4,0.0,1.4,0.0,4.5,1.4,0.1,0.0,9.3,8.2,8.0,2.1,9.3,0.1,3.8,6.2,4.7,0.0,4.8,1.7,0.0,0.9,2.7,8.4,0.0,0.0,8.6,7.6,10.3,0.0,0.0,9.2,10.4,0.0,0.0,0.0,0.0,3.1,0.0,0.0,5.2,0.1,9.3,1.4,0.9,9.4,7.2,3.1,8.1,0.1,0.0,4.5,2.7,0.0,0.0,0.0,4.8,3.9,7.1,2.3,6.0,6.8,0.0,0.1,0.0,8.6,1.4,11.1,7.7,3.6,0.0,0.2,0.0,5.3,0.0,6.7,2.2,0.0,0.0,8.6,2.3,0.0,0.0,0.0,1.9,4.0,4.5,0.0,10.6,3.2,9.4,3.5,2.1,0.9,0.0,0.0,5.1,1.5,5.9,8.4,0.0,1.2,0.0,0.0,7.0,0.0,0.0,0.4,0.5,0.9,0.0,0.0,0.8,0.4,5.0,2.1,4.8,0.0,9.3,3.0,0.8,7.1,0.3,9.1,0.0,3.0,0.0,7.5,0.0,12.4,14.8,1.0,0.0],"y0":" ","yaxis":"y","type":"box"}],                        {"annotations":[{"bgcolor":"lightyellow","bordercolor":"orange","borderwidth":1,"showarrow":false,"text":"T-test p-value: 0.0000\u003cbr\u003eSignificant difference","x":0.5,"xref":"paper","y":14.915}],"boxmode":"overlay","height":400,"legend":{"title":{"text":"ui_version"},"tracegroupgap":0},"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Feature X Usage Distribution by UI Version"},"xaxis":{"anchor":"y","categoryarray":["New UI","Old UI"],"categoryorder":"array","domain":[0.0,1.0],"title":{"text":"ui_version"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Feature X Usage Score"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="535d20c5-077c-4397-a5f6-1def1cbf9c7b" class="plotly-graph-div" style="height:400px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("535d20c5-077c-4397-a5f6-1def1cbf9c7b")) {                    Plotly.newPlot(                        "535d20c5-077c-4397-a5f6-1def1cbf9c7b",                        [{"hovertemplate":"Days Since Launch=%{x}\u003cbr\u003eFeature X Usage Score=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","opacity":0.6,"symbol":"circle"},"mode":"markers","name":"","orientation":"v","showlegend":false,"x":[29,27,21,32,12,28,21,24,47,16,32,42,34,20,30,47,24,26,10,19,8,39,25,29,21,34,42,24,41,3,21,43,51,37,52,30,24,8,27,32,9,33,55,16,26,46,30,35,1,56,6,20,13,37,12,44,12,32,34,44,24,43,27,35,29,38,36,44,28,17,42,15,29,35,31,18,11,23,27,30,18,7,41,2,10,26,10,16,1,50,4,17,52,28,15,14,55,18,42,28,42,21,31,9,39,31,28,18,45,39,33,33,25,51,11,32,30,23,13,8,39,28,25,30,21,5,14,13,35,47,40,30,24,27,27,44,0,44,28,49,29,45,54,40,37,22,40,17,32,16,36,37,32,45,23,25,18,11,1,43,29,2,27,41,24,32,32,49,20,29,40,37,42,28,3,33,45,20,13,27,51,46,36,1,49,24,25,21,40,19,32,20,38,23,36,42,4,30,55,31,20,36,10,3,26,30,37,44,47,32,7,38,31,19,29,42,1,35,20,41,36,25,4,32,24,6,47,28,11,31,51,50,38,4,15,30,20,34,47,49,58,22,41,31,33,15,12,50,37,40,35,23,45,46,40,28,22,33,4,34,9,31,42,34,21,22,9,28,9,21,23,23,29,1,34,51,35,42,37,8,34,4,51,26,36,32,17,30,32,6,32,23,12,15,3,28,44,13,45,10,45,23,30,39,41,47,34,23,52,9,36,2,9,42,31,49,33,25,22,2,37,40,33,18,31,48,40,18,40,33,29,18,26,57,17,19,54,15,32,28,8,18,18,26,39,36,34,34,26,28,46,42,7,36,42,16,45,32,26,32,27,34,45,17,20,41,27,8,47,17,8,22,24,50,57,24,30,30,33,32,49,43,53,33,36,51,45,39,4,55,39,22,34,3,16,50,9,19,32,22,23,5,17,41,55,41,26,34,29,20,7,22,22,42,35,51,11,34,19,22,0,40,37,6,3,40,55,30,18,22,11,11,42,29,21,42,32,8,23,39,53,31,37,28,34,33,26,6,23,30,37,37,21,29,55,43,35,43,36,16,33,36,36,18,9,24,24,30,5,38,32,33,43,22,21,7,51,26,7,38,37,18,44,19,37,43,13,43,34,7,34,21,59,29,22,46,18,27,49,48,35,26,41,36,35,33,39,25,26,15,15,33,9,3,31,49,28,6,12,28,22,4,50,24,10,46,42,30,13,32,20,18,0,46,22,32,18,19,11,42,44,23,16,14,19,31,45,32,32,25,10,31,8,21,20,47,44,50,28,24,34,46,44,34,29,17,40,24,38,25,59,32,24,43,21,22,12,35,22,44,35,10,43,40,10,20,29,32,51,19,39,15,12,44,26,25,31,8,25,3,40,19,56,41,17,18,6,56,35,39,16,27,20,51,31,21,32,38,13,3,25,9,22,17,27,48,16,32,15,41,49,19,3,25,34,44,26,36,3,59,48,43,21,10,35,16,33,17,37,23,24,32,31,14,27,33,52,47,35,29,51,52,32,57,30,7,14,22,27,54,21,40,20,26,32,10,44,32,21,44,21,30,25,28,6,16,44,45,25,2,9,9,31,38,45,32,30,29,9,48,32,27,46,16,24,32,29,41,34,16,38,15,24,33,38,45,49,49,35,42,45,54,35,31,18,36,13,41,20,20,19,13,14,23,36,35,30,0,18,37,29,30,31,49,28,9,24,17,21,9,42,30,10,3,13,49,58,44,32,23,33,43,20,53,29,16,40,19,49,26,40,24,20,22,5,22,41,35,19,26,29,28,33,11,4,19,28,15,18,25,51,28,13,51,36,22,12,41,30,31,42,39,32,36,18,24,47,19,22,39,37,36,37,11,34,24,15,37,31,23,23,14,33,37,33,21,41,26,25,35,31,13,21,43,38,21,23,44,13,20,11,22,30,28,30,19,58,27,33,21,41,50,19,7,8,33,28,13,26,31,55,55,28,26,41,20,24,33,55,41,14,44,15,30,29,55,21,50,35,9,31,32,32,55,44,47,13,20,28,49,17,5,28,42,31,17,18,2,50,40,19,43,27,36,22,13,44,19,33,23,29,38,27,33,32,39,22,10,31,31,19,23,19,33,20,35,34,44,28,9,31,8,34,24,16,19,24,52,43,38,15,28,23,21,53,29,11,47,14,3,35,42,32,38,43,39,12,36,6,13,34,36,24,25,45,49,15,11,9,40,25,32,33,55,58,26,27,25,26,38,8,45,31,43,44,35,7,37,35,4,24,16,39,45,27,28,8,40,38,11],"xaxis":"x","y":[10.0,2.5,8.0,0.0,1.7,1.7,0.8,0.0,0.0,2.1,0.0,0.0,1.4,2.0,1.6,0.0,0.0,6.4,4.7,2.0,2.1,0.0,0.0,0.0,8.9,6.1,3.1,0.0,0.6,1.5,0.0,0.0,6.3,4.2,0.0,0.0,11.8,0.0,8.2,0.0,0.4,0.0,0.0,2.6,0.0,0.0,1.0,0.0,10.1,1.2,1.1,1.0,7.4,10.6,1.9,0.0,7.0,6.2,0.0,0.0,3.7,0.0,0.0,0.0,2.9,0.0,1.9,0.0,2.5,4.9,0.0,5.6,5.8,0.0,0.0,4.9,0.0,0.0,1.2,11.8,0.1,3.7,0.0,4.6,0.0,0.0,0.0,6.1,0.0,0.0,3.3,11.1,3.3,0.0,6.9,0.0,0.6,3.3,0.0,0.0,4.0,7.6,0.0,5.2,0.0,0.0,0.4,1.5,0.0,0.0,4.8,1.8,2.5,0.0,0.0,0.4,0.0,0.0,4.0,3.1,0.0,0.5,9.1,0.0,2.1,0.0,4.7,3.0,6.6,0.0,2.7,0.0,0.9,6.0,0.0,5.9,9.1,8.8,5.6,0.4,1.9,0.0,0.0,0.0,0.0,4.4,7.9,0.0,1.9,10.6,0.0,5.3,0.0,0.9,6.0,0.0,0.0,5.2,12.3,0.0,5.8,0.0,1.0,0.0,10.0,0.0,0.0,3.9,8.5,4.8,0.0,1.3,0.0,10.9,6.8,0.1,0.0,6.1,8.7,0.0,0.4,4.7,1.2,3.9,0.0,0.0,2.1,0.0,0.0,7.0,0.0,0.0,0.0,1.2,1.9,9.9,1.9,0.0,1.3,2.7,1.5,9.8,0.0,0.0,0.0,0.7,0.0,3.3,0.0,0.0,3.1,1.5,0.0,1.2,1.9,0.0,2.8,0.0,0.0,0.0,0.0,6.6,4.0,0.0,0.0,1.6,4.3,4.9,2.5,0.0,0.0,3.5,0.0,15.7,0.0,0.0,0.0,0.0,3.8,0.0,0.0,0.4,0.0,6.3,0.0,0.0,9.2,4.8,0.0,1.5,2.3,6.8,0.0,0.7,0.0,10.0,7.9,8.5,0.0,0.0,2.2,3.7,0.9,9.2,0.0,3.3,9.2,3.2,6.1,0.0,11.1,10.1,0.0,12.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,7.3,4.3,0.0,0.9,5.5,0.0,0.0,5.3,0.0,2.6,11.5,0.0,0.0,0.0,0.0,0.0,0.0,2.3,0.0,0.0,0.0,0.0,0.0,8.1,0.0,8.2,4.4,0.0,0.0,0.0,0.0,3.2,0.0,0.0,4.7,3.2,8.7,4.6,0.0,0.0,2.5,0.0,5.1,0.0,0.0,0.0,0.0,5.4,0.0,0.1,0.0,0.0,4.8,0.0,3.2,0.0,0.0,0.8,6.7,0.5,0.0,0.0,2.7,3.0,8.2,0.8,0.0,0.0,0.0,0.0,6.3,3.9,0.0,7.8,0.0,0.0,0.0,0.0,0.0,3.8,7.3,0.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3,7.0,2.0,0.0,0.0,5.5,0.0,0.0,0.0,3.0,0.5,0.3,0.0,2.5,5.5,0.0,0.0,5.9,5.5,6.5,0.0,5.6,0.0,3.3,11.4,0.0,3.2,0.0,1.9,0.9,0.6,0.0,0.0,2.5,4.5,6.5,0.0,0.3,0.0,6.7,5.8,0.9,0.0,2.7,0.0,0.0,10.2,0.0,0.0,0.0,0.0,0.8,0.8,0.0,4.2,5.3,10.9,0.0,0.0,0.0,3.7,0.0,0.0,0.0,0.0,5.0,0.0,2.4,0.0,0.0,0.0,0.0,0.0,11.6,0.0,0.0,0.3,8.3,0.0,2.7,0.0,0.0,4.3,0.0,0.0,10.0,0.0,0.0,8.3,3.5,6.2,2.0,0.2,0.0,0.0,0.0,0.0,2.5,10.9,8.9,0.0,0.0,0.0,0.0,2.7,0.0,0.0,0.9,6.8,0.0,0.0,1.6,0.0,0.0,4.7,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,1.7,0.0,0.0,6.6,10.8,2.4,7.4,0.0,0.0,0.0,3.7,1.2,1.9,6.9,0.0,1.5,0.7,0.0,0.0,0.8,0.9,0.0,1.9,5.6,0.8,4.5,0.0,0.7,2.1,0.0,0.0,7.6,0.0,0.0,2.5,3.0,0.0,0.0,0.0,0.0,11.0,0.0,3.6,0.0,1.5,0.0,7.1,1.3,0.0,0.0,0.0,0.0,0.0,1.4,0.0,4.3,7.4,0.0,0.0,0.0,3.0,9.3,6.0,1.6,1.6,3.3,0.0,0.0,4.2,2.5,0.0,2.9,9.4,0.0,0.0,1.2,0.0,7.6,0.5,0.0,4.5,0.0,0.0,0.0,8.4,0.0,3.8,0.0,0.0,0.4,6.4,7.5,0.0,0.0,1.0,8.4,0.0,3.3,4.3,0.0,13.5,0.0,5.5,6.4,0.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,5.4,3.6,0.4,0.0,8.3,0.0,0.0,0.0,0.0,6.2,0.0,0.0,10.5,0.0,5.0,9.0,0.0,0.0,4.0,0.0,0.0,5.4,0.0,0.0,7.9,0.0,0.0,7.7,0.0,10.6,0.0,6.3,3.8,0.1,1.3,6.6,0.0,0.5,0.0,5.3,0.0,3.5,0.0,0.0,4.7,0.0,0.0,0.0,2.7,8.8,0.9,0.0,1.4,5.6,0.0,2.3,4.8,0.0,0.0,0.0,0.0,0.0,0.0,10.1,0.5,2.5,7.4,0.0,0.0,4.5,0.0,7.2,1.4,0.0,2.2,0.0,0.8,2.4,0.4,0.0,6.1,4.5,9.9,1.4,0.0,0.0,0.1,0.0,0.0,0.1,0.0,5.6,9.3,0.0,8.2,0.0,1.0,8.0,2.1,9.3,0.1,0.0,4.3,3.8,0.0,0.0,0.0,6.2,0.0,4.7,0.0,4.9,4.8,1.7,0.0,7.2,0.0,2.8,0.9,0.0,4.5,2.7,4.9,8.4,0.0,0.0,0.0,6.2,0.0,0.0,8.6,7.6,0.0,0.0,0.0,10.3,0.0,8.1,7.2,6.4,0.0,0.0,9.2,10.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.1,4.2,0.0,3.9,0.0,0.0,5.2,0.0,2.7,0.1,9.3,1.4,1.6,1.3,0.0,0.0,5.2,0.9,9.4,4.1,0.0,7.2,0.0,3.1,0.0,3.5,8.1,0.0,0.0,0.1,0.0,0.0,3.1,4.5,2.7,3.3,0.0,0.0,0.0,3.5,0.0,0.0,0.0,4.8,4.6,4.4,3.9,4.8,7.1,0.0,0.0,0.0,2.3,0.0,6.0,6.8,0.0,0.0,0.1,0.0,4.7,8.6,2.0,1.4,1.4,2.4,2.3,0.0,0.0,0.0,10.1,11.1,7.7,0.0,0.0,4.2,3.6,0.0,0.2,10.6,0.0,6.1,0.0,0.0,0.0,0.0,5.3,0.0,1.2,0.0,0.0,0.0,0.0,0.0,6.7,2.2,4.3,0.0,0.0,0.0,0.0,0.0,8.6,2.3,3.5,0.0,0.6,0.0,0.3,5.2,0.0,4.3,0.0,1.9,4.0,0.0,4.5,0.0,10.6,2.5,3.2,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,2.1,9.4,3.5,0.0,2.1,0.0,5.4,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.1,4.4,0.0,3.4,5.8,0.0,1.5,6.7,0.0,0.0,0.0,5.9,0.0,4.0,8.4,0.0,0.0,0.0,1.9,0.0,0.0,0.0,1.2,0.0,0.0,0.0,3.4,0.0,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4,0.5,8.4,9.2,0.0,0.0,8.9,4.3,0.0,0.9,0.0,0.0,0.8,0.4,5.0,1.0,0.0,0.0,10.4,2.1,4.8,0.0,3.6,0.0,0.0,0.0,2.8,9.3,3.0,0.8,7.1,6.9,4.2,0.0,0.0,0.3,4.9,9.1,0.0,0.0,3.0,0.0,4.5,0.0,7.5,0.0,12.4,0.0,0.0,14.8,0.0,1.4,4.4,0.0,0.0,0.0,1.0,0.0,0.0,0.0],"yaxis":"y","type":"scatter"},{"hovertemplate":"\u003cb\u003eOLS trendline\u003c\u002fb\u003e\u003cbr\u003efeature_x_usage_score = -0.0545169 * days_since_launch + 3.82415\u003cbr\u003eR\u003csup\u003e2\u003c\u002fsup\u003e=0.052020\u003cbr\u003e\u003cbr\u003eDays Since Launch=%{x}\u003cbr\u003eFeature X Usage Score=%{y} \u003cb\u003e(trend)\u003c\u002fb\u003e\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","symbol":"circle"},"mode":"lines","name":"","showlegend":false,"x":[0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,23,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,29,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,36,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,41,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,46,46,46,46,46,46,46,46,46,47,47,47,47,47,47,47,47,47,47,47,47,47,48,48,48,48,48,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,49,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,51,51,51,51,51,51,52,52,52,52,52,52,53,53,53,53,54,54,54,54,55,55,55,55,55,55,55,55,55,55,55,55,55,56,56,56,57,57,57,58,58,58,58,59,59,59],"xaxis":"x","y":[3.8241506773944938,3.8241506773944938,3.8241506773944938,3.8241506773944938,3.7696338178775015,3.7696338178775015,3.7696338178775015,3.7696338178775015,3.7696338178775015,3.7696338178775015,3.7151169583605097,3.7151169583605097,3.7151169583605097,3.7151169583605097,3.7151169583605097,3.7151169583605097,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.6606000988435174,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.606083239326525,3.5515663798095334,3.5515663798095334,3.5515663798095334,3.5515663798095334,3.5515663798095334,3.497049520292541,3.497049520292541,3.497049520292541,3.497049520292541,3.497049520292541,3.497049520292541,3.497049520292541,3.497049520292541,3.497049520292541,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.442532660775549,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.3880158012585566,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.333498941741565,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2789820822245725,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.2244652227075803,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1699483631905885,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.1154315036735962,3.060914644156604,3.060914644156604,3.060914644156604,3.060914644156604,3.060914644156604,3.060914644156604,3.060914644156604,3.060914644156604,3.060914644156604,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,3.0063977846396117,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.95188092512262,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8973640656056276,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.8428472060886354,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7883303465716436,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.7338134870546513,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.679296627537659,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.624779768020667,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.570262908503675,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.5157460489866827,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.461229189469691,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.4067123299526987,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.3521954704357064,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.297678610918714,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.243161751401722,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.18864489188473,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.134128032367738,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.079611172850746,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,2.025094313333754,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9705774538167615,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.9160605942997695,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8615437347827772,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.8070268752657852,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.752510015748793,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6979931562318011,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.6434762967148089,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5889594371978166,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.5344425776808244,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4799257181638326,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.4254088586468403,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.370891999129848,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.3163751396128562,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.261858280095864,1.2073414205788717,1.2073414205788717,1.2073414205788717,1.2073414205788717,1.2073414205788717,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.15282456106188,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0983077015448877,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,1.0437908420278954,0.9892739825109031,0.9892739825109031,0.9892739825109031,0.9892739825109031,0.9892739825109031,0.9892739825109031,0.9347571229939113,0.9347571229939113,0.9347571229939113,0.9347571229939113,0.8802402634769191,0.8802402634769191,0.8802402634769191,0.8802402634769191,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.8257234039599268,0.771206544442935,0.771206544442935,0.771206544442935,0.7166896849259428,0.7166896849259428,0.7166896849259428,0.6621728254089505,0.6621728254089505,0.6621728254089505,0.6621728254089505,0.6076559658919587,0.6076559658919587,0.6076559658919587],"yaxis":"y","type":"scatter"}],                        {"annotations":[{"bgcolor":"white","bordercolor":"black","borderwidth":1,"showarrow":false,"text":"Correlation: -0.228","x":47.2,"y":14.129999999999999}],"height":400,"legend":{"tracegroupgap":0},"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Feature X Usage vs Days Since Launch"},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Days Since Launch"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Feature X Usage Score"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div><div class="visualization-container"><div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="0ba84ab8-9c87-47d4-ab7c-8ea41234426a" class="plotly-graph-div" style="height:600px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("0ba84ab8-9c87-47d4-ab7c-8ea41234426a")) {                    Plotly.newPlot(                        "0ba84ab8-9c87-47d4-ab7c-8ea41234426a",                        [{"name":"Usage Distribution","nbinsx":20,"opacity":0.7,"x":[10.0,2.5,8.0,0.0,1.7,1.7,0.8,0.0,0.0,2.1,0.0,0.0,1.4,2.0,1.6,0.0,0.0,6.4,4.7,2.0,2.1,0.0,0.0,0.0,8.9,6.1,3.1,0.0,0.6,1.5,0.0,0.0,6.3,4.2,0.0,0.0,11.8,0.0,8.2,0.0,0.4,0.0,0.0,2.6,0.0,0.0,1.0,0.0,10.1,1.2,1.1,1.0,7.4,10.6,1.9,0.0,7.0,6.2,0.0,0.0,3.7,0.0,0.0,0.0,2.9,0.0,1.9,0.0,2.5,4.9,0.0,5.6,5.8,0.0,0.0,4.9,0.0,0.0,1.2,11.8,0.1,3.7,0.0,4.6,0.0,0.0,0.0,6.1,0.0,0.0,3.3,11.1,3.3,0.0,6.9,0.0,0.6,3.3,0.0,0.0,4.0,7.6,0.0,5.2,0.0,0.0,0.4,1.5,0.0,0.0,4.8,1.8,2.5,0.0,0.0,0.4,0.0,0.0,4.0,3.1,0.0,0.5,9.1,0.0,2.1,0.0,4.7,3.0,6.6,0.0,2.7,0.0,0.9,6.0,0.0,5.9,9.1,8.8,5.6,0.4,1.9,0.0,0.0,0.0,0.0,4.4,7.9,0.0,1.9,10.6,0.0,5.3,0.0,0.9,6.0,0.0,0.0,5.2,12.3,0.0,5.8,0.0,1.0,0.0,10.0,0.0,0.0,3.9,8.5,4.8,0.0,1.3,0.0,10.9,6.8,0.1,0.0,6.1,8.7,0.0,0.4,4.7,1.2,3.9,0.0,0.0,2.1,0.0,0.0,7.0,0.0,0.0,0.0,1.2,1.9,9.9,1.9,0.0,1.3,2.7,1.5,9.8,0.0,0.0,0.0,0.7,0.0,3.3,0.0,0.0,3.1,1.5,0.0,1.2,1.9,0.0,2.8,0.0,0.0,0.0,0.0,6.6,4.0,0.0,0.0,1.6,4.3,4.9,2.5,0.0,0.0,3.5,0.0,15.7,0.0,0.0,0.0,0.0,3.8,0.0,0.0,0.4,0.0,6.3,0.0,0.0,9.2,4.8,0.0,1.5,2.3,6.8,0.0,0.7,0.0,10.0,7.9,8.5,0.0,0.0,2.2,3.7,0.9,9.2,0.0,3.3,9.2,3.2,6.1,0.0,11.1,10.1,0.0,12.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,7.3,4.3,0.0,0.9,5.5,0.0,0.0,5.3,0.0,2.6,11.5,0.0,0.0,0.0,0.0,0.0,0.0,2.3,0.0,0.0,0.0,0.0,0.0,8.1,0.0,8.2,4.4,0.0,0.0,0.0,0.0,3.2,0.0,0.0,4.7,3.2,8.7,4.6,0.0,0.0,2.5,0.0,5.1,0.0,0.0,0.0,0.0,5.4,0.0,0.1,0.0,0.0,4.8,0.0,3.2,0.0,0.0,0.8,6.7,0.5,0.0,0.0,2.7,3.0,8.2,0.8,0.0,0.0,0.0,0.0,6.3,3.9,0.0,7.8,0.0,0.0,0.0,0.0,0.0,3.8,7.3,0.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3,7.0,2.0,0.0,0.0,5.5,0.0,0.0,0.0,3.0,0.5,0.3,0.0,2.5,5.5,0.0,0.0,5.9,5.5,6.5,0.0,5.6,0.0,3.3,11.4,0.0,3.2,0.0,1.9,0.9,0.6,0.0,0.0,2.5,4.5,6.5,0.0,0.3,0.0,6.7,5.8,0.9,0.0,2.7,0.0,0.0,10.2,0.0,0.0,0.0,0.0,0.8,0.8,0.0,4.2,5.3,10.9,0.0,0.0,0.0,3.7,0.0,0.0,0.0,0.0,5.0,0.0,2.4,0.0,0.0,0.0,0.0,0.0,11.6,0.0,0.0,0.3,8.3,0.0,2.7,0.0,0.0,4.3,0.0,0.0,10.0,0.0,0.0,8.3,3.5,6.2,2.0,0.2,0.0,0.0,0.0,0.0,2.5,10.9,8.9,0.0,0.0,0.0,0.0,2.7,0.0,0.0,0.9,6.8,0.0,0.0,1.6,0.0,0.0,4.7,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,1.7,0.0,0.0,6.6,10.8,2.4,7.4,0.0,0.0,0.0,3.7,1.2,1.9,6.9,0.0,1.5,0.7,0.0,0.0,0.8,0.9,0.0,1.9,5.6,0.8,4.5,0.0,0.7,2.1,0.0,0.0,7.6,0.0,0.0,2.5,3.0,0.0,0.0,0.0,0.0,11.0,0.0,3.6,0.0,1.5,0.0,7.1,1.3,0.0,0.0,0.0,0.0,0.0,1.4,0.0,4.3,7.4,0.0,0.0,0.0,3.0,9.3,6.0,1.6,1.6,3.3,0.0,0.0,4.2,2.5,0.0,2.9,9.4,0.0,0.0,1.2,0.0,7.6,0.5,0.0,4.5,0.0,0.0,0.0,8.4,0.0,3.8,0.0,0.0,0.4,6.4,7.5,0.0,0.0,1.0,8.4,0.0,3.3,4.3,0.0,13.5,0.0,5.5,6.4,0.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,5.4,3.6,0.4,0.0,8.3,0.0,0.0,0.0,0.0,6.2,0.0,0.0,10.5,0.0,5.0,9.0,0.0,0.0,4.0,0.0,0.0,5.4,0.0,0.0,7.9,0.0,0.0,7.7,0.0,10.6,0.0,6.3,3.8,0.1,1.3,6.6,0.0,0.5,0.0,5.3,0.0,3.5,0.0,0.0,4.7,0.0,0.0,0.0,2.7,8.8,0.9,0.0,1.4,5.6,0.0,2.3,4.8,0.0,0.0,0.0,0.0,0.0,0.0,10.1,0.5,2.5,7.4,0.0,0.0,4.5,0.0,7.2,1.4,0.0,2.2,0.0,0.8,2.4,0.4,0.0,6.1,4.5,9.9,1.4,0.0,0.0,0.1,0.0,0.0,0.1,0.0,5.6,9.3,0.0,8.2,0.0,1.0,8.0,2.1,9.3,0.1,0.0,4.3,3.8,0.0,0.0,0.0,6.2,0.0,4.7,0.0,4.9,4.8,1.7,0.0,7.2,0.0,2.8,0.9,0.0,4.5,2.7,4.9,8.4,0.0,0.0,0.0,6.2,0.0,0.0,8.6,7.6,0.0,0.0,0.0,10.3,0.0,8.1,7.2,6.4,0.0,0.0,9.2,10.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.1,4.2,0.0,3.9,0.0,0.0,5.2,0.0,2.7,0.1,9.3,1.4,1.6,1.3,0.0,0.0,5.2,0.9,9.4,4.1,0.0,7.2,0.0,3.1,0.0,3.5,8.1,0.0,0.0,0.1,0.0,0.0,3.1,4.5,2.7,3.3,0.0,0.0,0.0,3.5,0.0,0.0,0.0,4.8,4.6,4.4,3.9,4.8,7.1,0.0,0.0,0.0,2.3,0.0,6.0,6.8,0.0,0.0,0.1,0.0,4.7,8.6,2.0,1.4,1.4,2.4,2.3,0.0,0.0,0.0,10.1,11.1,7.7,0.0,0.0,4.2,3.6,0.0,0.2,10.6,0.0,6.1,0.0,0.0,0.0,0.0,5.3,0.0,1.2,0.0,0.0,0.0,0.0,0.0,6.7,2.2,4.3,0.0,0.0,0.0,0.0,0.0,8.6,2.3,3.5,0.0,0.6,0.0,0.3,5.2,0.0,4.3,0.0,1.9,4.0,0.0,4.5,0.0,10.6,2.5,3.2,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,2.1,9.4,3.5,0.0,2.1,0.0,5.4,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.1,4.4,0.0,3.4,5.8,0.0,1.5,6.7,0.0,0.0,0.0,5.9,0.0,4.0,8.4,0.0,0.0,0.0,1.9,0.0,0.0,0.0,1.2,0.0,0.0,0.0,3.4,0.0,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4,0.5,8.4,9.2,0.0,0.0,8.9,4.3,0.0,0.9,0.0,0.0,0.8,0.4,5.0,1.0,0.0,0.0,10.4,2.1,4.8,0.0,3.6,0.0,0.0,0.0,2.8,9.3,3.0,0.8,7.1,6.9,4.2,0.0,0.0,0.3,4.9,9.1,0.0,0.0,3.0,0.0,4.5,0.0,7.5,0.0,12.4,0.0,0.0,14.8,0.0,1.4,4.4,0.0,0.0,0.0,1.0,0.0,0.0,0.0],"xaxis":"x","yaxis":"y","type":"histogram"},{"line":{"color":"blue","width":2},"mode":"lines","name":"Cumulative %","x":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.3,0.3,0.3,0.3,0.3,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.6,0.6,0.6,0.6,0.7,0.7,0.7,0.7,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.1,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.3,1.3,1.3,1.3,1.3,1.3,1.4,1.4,1.4,1.4,1.4,1.4,1.4,1.4,1.4,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.6,1.6,1.6,1.6,1.6,1.6,1.7,1.7,1.7,1.7,1.8,1.9,1.9,1.9,1.9,1.9,1.9,1.9,1.9,1.9,1.9,1.9,1.9,2.0,2.0,2.0,2.0,2.0,2.0,2.1,2.1,2.1,2.1,2.1,2.1,2.1,2.1,2.1,2.2,2.2,2.2,2.3,2.3,2.3,2.3,2.3,2.3,2.4,2.4,2.4,2.4,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.6,2.6,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.8,2.8,2.8,2.9,2.9,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.1,3.1,3.1,3.1,3.1,3.1,3.2,3.2,3.2,3.2,3.2,3.2,3.3,3.3,3.3,3.3,3.3,3.3,3.3,3.3,3.3,3.4,3.4,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.6,3.6,3.6,3.6,3.7,3.7,3.7,3.7,3.7,3.8,3.8,3.8,3.8,3.8,3.9,3.9,3.9,3.9,3.9,4.0,4.0,4.0,4.0,4.0,4.0,4.1,4.2,4.2,4.2,4.2,4.2,4.2,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.4,4.4,4.4,4.4,4.4,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.5,4.6,4.6,4.6,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.9,4.9,4.9,4.9,4.9,4.9,5.0,5.0,5.0,5.1,5.1,5.2,5.2,5.2,5.2,5.2,5.3,5.3,5.3,5.3,5.3,5.4,5.4,5.4,5.4,5.5,5.5,5.5,5.5,5.5,5.6,5.6,5.6,5.6,5.6,5.6,5.8,5.8,5.8,5.8,5.9,5.9,5.9,6.0,6.0,6.0,6.0,6.0,6.1,6.1,6.1,6.1,6.1,6.1,6.2,6.2,6.2,6.2,6.2,6.3,6.3,6.3,6.3,6.4,6.4,6.4,6.4,6.5,6.5,6.6,6.6,6.6,6.6,6.7,6.7,6.7,6.7,6.8,6.8,6.8,6.8,6.9,6.9,6.9,7.0,7.0,7.0,7.0,7.1,7.1,7.1,7.2,7.2,7.2,7.2,7.3,7.3,7.4,7.4,7.4,7.4,7.5,7.5,7.6,7.6,7.6,7.6,7.7,7.7,7.8,7.9,7.9,7.9,8.0,8.0,8.1,8.1,8.1,8.2,8.2,8.2,8.2,8.3,8.3,8.3,8.4,8.4,8.4,8.4,8.4,8.5,8.5,8.6,8.6,8.6,8.7,8.7,8.8,8.8,8.9,8.9,8.9,9.0,9.1,9.1,9.1,9.2,9.2,9.2,9.2,9.2,9.3,9.3,9.3,9.3,9.3,9.4,9.4,9.4,9.8,9.9,9.9,10.0,10.0,10.0,10.0,10.1,10.1,10.1,10.1,10.2,10.3,10.4,10.4,10.5,10.6,10.6,10.6,10.6,10.6,10.8,10.9,10.9,10.9,11.0,11.1,11.1,11.1,11.4,11.5,11.6,11.8,11.8,12.0,12.3,12.4,13.5,14.8,15.7],"xaxis":"x2","y":[0.1,0.2,0.3,0.4,0.5,0.6,0.7000000000000001,0.8,0.8999999999999999,1.0,1.0999999999999999,1.2,1.3,1.4000000000000001,1.5,1.6,1.7000000000000002,1.7999999999999998,1.9,2.0,2.1,2.1999999999999997,2.3,2.4,2.5,2.6,2.7,2.8000000000000003,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5000000000000004,3.5999999999999996,3.6999999999999997,3.8,3.9,4.0,4.1000000000000005,4.2,4.3,4.3999999999999995,4.5,4.6,4.7,4.8,4.9,5.0,5.1,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.8999999999999995,6.0,6.1,6.2,6.3,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.000000000000001,7.1,7.199999999999999,7.3,7.3999999999999995,7.5,7.6,7.7,7.8,7.9,8.0,8.1,8.200000000000001,8.3,8.4,8.5,8.6,8.7,8.799999999999999,8.9,9.0,9.1,9.2,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0,10.100000000000001,10.2,10.299999999999999,10.4,10.5,10.6,10.7,10.8,10.9,11.0,11.1,11.200000000000001,11.3,11.4,11.5,11.600000000000001,11.700000000000001,11.799999999999999,11.899999999999999,12.0,12.1,12.2,12.3,12.4,12.5,12.6,12.7,12.8,12.9,13.0,13.100000000000001,13.200000000000001,13.3,13.4,13.5,13.600000000000001,13.700000000000001,13.8,13.900000000000002,14.000000000000002,14.099999999999998,14.2,14.299999999999999,14.399999999999999,14.499999999999998,14.6,14.7,14.799999999999999,14.899999999999999,15.0,15.1,15.2,15.299999999999999,15.4,15.5,15.6,15.7,15.8,15.9,16.0,16.1,16.2,16.3,16.400000000000002,16.5,16.6,16.7,16.8,16.900000000000002,17.0,17.1,17.2,17.299999999999997,17.4,17.5,17.599999999999998,17.7,17.8,17.9,18.0,18.099999999999998,18.2,18.3,18.4,18.5,18.6,18.7,18.8,18.9,19.0,19.1,19.2,19.3,19.400000000000002,19.5,19.6,19.7,19.8,19.900000000000002,20.0,20.1,20.200000000000003,20.3,20.4,20.5,20.599999999999998,20.7,20.8,20.9,21.0,21.099999999999998,21.2,21.3,21.4,21.5,21.6,21.7,21.8,21.9,22.0,22.1,22.2,22.3,22.400000000000002,22.5,22.6,22.7,22.8,22.900000000000002,23.0,23.1,23.200000000000003,23.3,23.400000000000002,23.5,23.599999999999998,23.7,23.799999999999997,23.9,24.0,24.099999999999998,24.2,24.3,24.4,24.5,24.6,24.7,24.8,24.9,25.0,25.1,25.2,25.3,25.4,25.5,25.6,25.7,25.8,25.900000000000002,26.0,26.1,26.200000000000003,26.3,26.400000000000002,26.5,26.6,26.700000000000003,26.8,26.900000000000002,27.0,27.1,27.200000000000003,27.3,27.400000000000002,27.500000000000004,27.6,27.700000000000003,27.800000000000004,27.900000000000002,28.000000000000004,28.1,28.199999999999996,28.299999999999997,28.4,28.499999999999996,28.599999999999998,28.7,28.799999999999997,28.9,28.999999999999996,29.099999999999998,29.2,29.299999999999997,29.4,29.5,29.599999999999998,29.7,29.799999999999997,29.9,30.0,30.099999999999998,30.2,30.3,30.4,30.5,30.599999999999998,30.7,30.8,30.9,31.0,31.1,31.2,31.3,31.4,31.5,31.6,31.7,31.8,31.900000000000002,32.0,32.1,32.2,32.300000000000004,32.4,32.5,32.6,32.7,32.800000000000004,32.9,33.0,33.1,33.2,33.300000000000004,33.4,33.5,33.6,33.7,33.800000000000004,33.900000000000006,34.0,34.1,34.2,34.300000000000004,34.4,34.5,34.599999999999994,34.699999999999996,34.8,34.9,35.0,35.099999999999994,35.199999999999996,35.3,35.4,35.5,35.6,35.699999999999996,35.8,35.9,36.0,36.1,36.199999999999996,36.3,36.4,36.5,36.6,36.7,36.8,36.9,37.0,37.1,37.2,37.3,37.4,37.5,37.6,37.7,37.8,37.9,38.0,38.1,38.2,38.3,38.4,38.5,38.6,38.7,38.800000000000004,38.9,39.0,39.1,39.2,39.300000000000004,39.4,39.5,39.6,39.7,39.800000000000004,39.900000000000006,40.0,40.1,40.2,40.300000000000004,40.400000000000006,40.5,40.6,40.699999999999996,40.8,40.9,41.0,41.099999999999994,41.199999999999996,41.3,41.4,41.5,41.6,41.699999999999996,41.8,41.9,42.0,42.1,42.199999999999996,42.3,42.4,42.5,42.6,42.699999999999996,42.8,42.9,43.0,43.1,43.2,43.3,43.4,43.5,43.6,43.7,43.8,43.9,44.0,44.1,44.2,44.3,44.4,44.5,44.6,44.7,44.800000000000004,44.9,45.0,45.1,45.2,45.300000000000004,45.4,45.5,45.6,45.7,45.800000000000004,45.9,46.0,46.1,46.2,46.300000000000004,46.400000000000006,46.5,46.6,46.7,46.800000000000004,46.9,47.0,47.099999999999994,47.199999999999996,47.3,47.4,47.5,47.599999999999994,47.699999999999996,47.8,47.9,48.0,48.1,48.199999999999996,48.3,48.4,48.5,48.6,48.699999999999996,48.8,48.9,49.0,49.1,49.2,49.3,49.4,49.5,49.6,49.7,49.8,49.9,50.0,50.1,50.2,50.3,50.4,50.5,50.6,50.7,50.8,50.9,51.0,51.1,51.2,51.300000000000004,51.4,51.5,51.6,51.7,51.800000000000004,51.9,52.0,52.1,52.2,52.300000000000004,52.400000000000006,52.5,52.6,52.7,52.800000000000004,52.900000000000006,53.0,53.1,53.2,53.300000000000004,53.400000000000006,53.5,53.6,53.7,53.800000000000004,53.900000000000006,54.0,54.1,54.2,54.300000000000004,54.400000000000006,54.50000000000001,54.6,54.7,54.800000000000004,54.900000000000006,55.00000000000001,55.1,55.2,55.300000000000004,55.400000000000006,55.50000000000001,55.60000000000001,55.7,55.800000000000004,55.900000000000006,56.00000000000001,56.10000000000001,56.2,56.3,56.39999999999999,56.49999999999999,56.599999999999994,56.699999999999996,56.8,56.89999999999999,56.99999999999999,57.099999999999994,57.199999999999996,57.3,57.4,57.49999999999999,57.599999999999994,57.699999999999996,57.8,57.9,57.99999999999999,58.099999999999994,58.199999999999996,58.3,58.4,58.5,58.599999999999994,58.699999999999996,58.8,58.9,59.0,59.099999999999994,59.199999999999996,59.3,59.4,59.5,59.599999999999994,59.699999999999996,59.8,59.9,60.0,60.099999999999994,60.199999999999996,60.3,60.4,60.5,60.6,60.699999999999996,60.8,60.9,61.0,61.1,61.199999999999996,61.3,61.4,61.5,61.6,61.7,61.8,61.9,62.0,62.1,62.2,62.3,62.4,62.5,62.6,62.7,62.8,62.9,63.0,63.1,63.2,63.3,63.4,63.5,63.6,63.7,63.800000000000004,63.9,64.0,64.1,64.2,64.3,64.4,64.5,64.60000000000001,64.7,64.8,64.9,65.0,65.10000000000001,65.2,65.3,65.4,65.5,65.60000000000001,65.7,65.8,65.9,66.0,66.10000000000001,66.2,66.3,66.4,66.5,66.60000000000001,66.7,66.8,66.9,67.0,67.10000000000001,67.2,67.30000000000001,67.4,67.5,67.60000000000001,67.7,67.80000000000001,67.9,68.0,68.10000000000001,68.2,68.30000000000001,68.4,68.5,68.60000000000001,68.7,68.8,68.89999999999999,69.0,69.1,69.19999999999999,69.3,69.39999999999999,69.5,69.6,69.69999999999999,69.8,69.89999999999999,70.0,70.1,70.19999999999999,70.3,70.39999999999999,70.5,70.6,70.7,70.8,70.89999999999999,71.0,71.1,71.2,71.3,71.39999999999999,71.5,71.6,71.7,71.8,71.89999999999999,72.0,72.1,72.2,72.3,72.39999999999999,72.5,72.6,72.7,72.8,72.89999999999999,73.0,73.1,73.2,73.3,73.4,73.5,73.6,73.7,73.8,73.9,74.0,74.1,74.2,74.3,74.4,74.5,74.6,74.7,74.8,74.9,75.0,75.1,75.2,75.3,75.4,75.5,75.6,75.7,75.8,75.9,76.0,76.1,76.2,76.3,76.4,76.5,76.6,76.7,76.8,76.9,77.0,77.10000000000001,77.2,77.3,77.4,77.5,77.60000000000001,77.7,77.8,77.9,78.0,78.10000000000001,78.2,78.3,78.4,78.5,78.60000000000001,78.7,78.8,78.9,79.0,79.10000000000001,79.2,79.3,79.4,79.5,79.60000000000001,79.7,79.80000000000001,79.9,80.0,80.10000000000001,80.2,80.30000000000001,80.4,80.5,80.60000000000001,80.7,80.80000000000001,80.9,81.0,81.10000000000001,81.2,81.3,81.39999999999999,81.5,81.6,81.69999999999999,81.8,81.89999999999999,82.0,82.1,82.19999999999999,82.3,82.39999999999999,82.5,82.6,82.69999999999999,82.8,82.89999999999999,83.0,83.1,83.2,83.3,83.39999999999999,83.5,83.6,83.7,83.8,83.89999999999999,84.0,84.1,84.2,84.3,84.39999999999999,84.5,84.6,84.7,84.8,84.89999999999999,85.0,85.1,85.2,85.3,85.39999999999999,85.5,85.6,85.7,85.8,85.9,86.0,86.1,86.2,86.3,86.4,86.5,86.6,86.7,86.8,86.9,87.0,87.1,87.2,87.3,87.4,87.5,87.6,87.7,87.8,87.9,88.0,88.1,88.2,88.3,88.4,88.5,88.6,88.7,88.8,88.9,89.0,89.1,89.2,89.3,89.4,89.5,89.60000000000001,89.7,89.8,89.9,90.0,90.10000000000001,90.2,90.3,90.4,90.5,90.60000000000001,90.7,90.8,90.9,91.0,91.10000000000001,91.2,91.3,91.4,91.5,91.60000000000001,91.7,91.8,91.9,92.0,92.10000000000001,92.2,92.30000000000001,92.4,92.5,92.60000000000001,92.7,92.80000000000001,92.9,93.0,93.10000000000001,93.2,93.30000000000001,93.4,93.5,93.60000000000001,93.7,93.8,93.89999999999999,94.0,94.1,94.19999999999999,94.3,94.39999999999999,94.5,94.6,94.69999999999999,94.8,94.89999999999999,95.0,95.1,95.19999999999999,95.3,95.39999999999999,95.5,95.6,95.7,95.8,95.89999999999999,96.0,96.1,96.2,96.3,96.39999999999999,96.5,96.6,96.7,96.8,96.89999999999999,97.0,97.1,97.2,97.3,97.39999999999999,97.5,97.6,97.7,97.8,97.89999999999999,98.0,98.1,98.2,98.3,98.4,98.5,98.6,98.7,98.8,98.9,99.0,99.1,99.2,99.3,99.4,99.5,99.6,99.7,99.8,99.9,100.0],"yaxis":"y2","type":"scatter"}],                        {"annotations":[{"font":{"size":16},"showarrow":false,"text":"Usage Score Distribution","x":0.5,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Cumulative Distribution","x":0.5,"xanchor":"center","xref":"paper","y":0.44,"yanchor":"bottom","yref":"paper"},{"arrowhead":2,"bgcolor":"red","font":{"color":"white"},"showarrow":true,"text":"\u003c3: 68.9%","x":3,"xref":"x","y":50,"yref":"y"},{"arrowhead":2,"bgcolor":"orange","font":{"color":"white"},"showarrow":true,"text":"\u003c5: 80.7%","x":5,"xref":"x","y":70,"yref":"y"}],"height":600,"shapes":[{"line":{"color":"red","dash":"dash"},"type":"line","x0":3,"x1":3,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"line":{"color":"orange","dash":"dash"},"type":"line","x0":5,"x1":5,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"line":{"color":"red","dash":"dash"},"type":"line","x0":3,"x1":3,"xref":"x2","y0":0,"y1":1,"yref":"y2 domain"},{"line":{"color":"orange","dash":"dash"},"type":"line","x0":5,"x1":5,"xref":"x2","y0":0,"y1":1,"yref":"y2 domain"}],"showlegend":false,"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Feature X Usage Score Distribution Analysis\u003cbr\u003e\u003csub\u003eRed line: Score \u003c 3 (Non-adoption), Orange line: Score \u003c 5 (Light usage)\u003c\u002fsub\u003e"},"xaxis":{"anchor":"y","domain":[0.0,1.0]},"yaxis":{"anchor":"x","domain":[0.56,1.0],"title":{"text":"Count"}},"xaxis2":{"anchor":"y2","domain":[0.0,1.0],"title":{"text":"Feature X Usage Score"}},"yaxis2":{"anchor":"x2","domain":[0.0,0.44],"title":{"text":"Cumulative Percentage"}}},                        {"displayModeBar": true, "responsive": true}                    )                };                            </script>        </div></div>
+            </div>
+
+            
+        <div class="section">
+                <h2>Generated Code</h2>
+                <div class="code-section">
+                    <div class="code-header">
+                        <span id="codeToggle" onclick="toggleCode()" style="cursor: pointer;">
+                            View Generated Code (Click to expand)
+                        </span>
+                        <div class="code-controls">
+                            <button id="copyButton" class="copy-button" onclick="copyCode()">Copy</button>
+        </div>
+                    </div>
+                    <div class="code-content" id="codeContent">
+                        <pre><code id="rawCode" class="language-python">import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
+import statsmodels.api as sm
+from scipy import stats
+
+# Initialize list to store all Plotly figures
+plotly_figs = []
+
+# ===== DATA PREPROCESSING =====
+print("=== DATA PREPROCESSING ===")
+
+# Create a copy of the original DataFrame
+cleaned_df = df.copy()
+
+# Remove the unnamed index column as it's redundant
+if 'Unnamed: 0' in cleaned_df.columns:
+    cleaned_df = cleaned_df.drop('Unnamed: 0', axis=1)
+
+# Separate column types for targeted missing value handling
+numeric_cols = cleaned_df.select_dtypes(include=['int64', 'float64']).columns
+categorical_cols = cleaned_df.select_dtypes(include=['object']).columns
+boolean_cols = cleaned_df.select_dtypes(include=['bool']).columns
+
+# Handle missing values for numeric columns (use median)
+for col in numeric_cols:
+    if cleaned_df[col].isnull().any():
+        cleaned_df[col] = cleaned_df[col].fillna(cleaned_df[col].median())
+
+# Handle missing values for categorical columns (use mode or 'Unknown')
+for col in categorical_cols:
+    if cleaned_df[col].isnull().any():
+        mode_value = cleaned_df[col].mode()
+        fill_value = mode_value[0] if not mode_value.empty else 'Unknown'
+        cleaned_df[col] = cleaned_df[col].fillna(fill_value)
+
+# Handle missing values for boolean columns (use mode or False as default)
+for col in boolean_cols:
+    if cleaned_df[col].isnull().any():
+        mode_value = cleaned_df[col].mode()
+        fill_value = mode_value[0] if not mode_value.empty else False
+        cleaned_df[col] = cleaned_df[col].fillna(fill_value)
+
+# Ensure proper data types
+categorical_columns_to_convert = ['plan', 'segment', 'ui_version']
+for col in categorical_columns_to_convert:
+    if col in cleaned_df.columns:
+        cleaned_df[col] = cleaned_df[col].astype('category')
+
+# Ensure numeric columns are properly typed
+if 'days_since_launch' in cleaned_df.columns:
+    cleaned_df['days_since_launch'] = cleaned_df['days_since_launch'].astype('int64')
+
+if 'feature_x_usage_score' in cleaned_df.columns:
+    cleaned_df['feature_x_usage_score'] = cleaned_df['feature_x_usage_score'].astype('float64')
+
+# Ensure boolean column is properly typed
+if 'onboarding_completed' in cleaned_df.columns:
+    cleaned_df['onboarding_completed'] = cleaned_df['onboarding_completed'].astype('bool')
+
+print(f"Cleaned dataset shape: {cleaned_df.shape}")
+print(f"Missing values per column:\n{cleaned_df.isnull().sum()}")
+print(f"Data types:\n{cleaned_df.dtypes}")
+
+# ===== STATISTICAL ANALYSIS =====
+print("\n=== STATISTICAL ANALYSIS ===")
+
+# 1. Segmentation Statistics - Feature usage by plan and segment combinations
+def analyze_segmentation(df):
+    segmentation_stats = {}
+    
+    # Group by plan and segment combinations
+    segment_groups = df.groupby(['plan', 'segment'])['feature_x_usage_score']
+    
+    # Calculate statistics for each combination
+    combinations = []
+    for (plan, segment), group in segment_groups:
+        stats_dict = {
+            'plan': plan,
+            'segment': segment,
+            'count': len(group),
+            'mean': group.mean(),
+            'median': group.median(),
+            'std': group.std(),
+            'min': group.min(),
+            'max': group.max()
+        }
+        combinations.append(stats_dict)
+    
+    # Convert to DataFrame for easier analysis
+    combo_df = pd.DataFrame(combinations)
+    
+    # Identify lowest adoption rates
+    lowest_adoption = combo_df.nsmallest(3, 'mean')[['plan', 'segment', 'mean', 'count']]
+    
+    segmentation_stats['combination_statistics'] = combinations
+    segmentation_stats['lowest_adoption_combinations'] = lowest_adoption.to_dict('records')
+    segmentation_stats['overall_plan_stats'] = df.groupby('plan')['feature_x_usage_score'].agg(['count', 'mean', 'median', 'std']).to_dict()
+    segmentation_stats['overall_segment_stats'] = df.groupby('segment')['feature_x_usage_score'].agg(['count', 'mean', 'median', 'std']).to_dict()
+    
+    return segmentation_stats
+
+# 2. Correlation Analysis
+def analyze_correlations(df):
+    correlation_results = {}
+    
+    # Convert boolean to numeric for correlation
+    df_corr = df.copy()
+    df_corr['onboarding_completed_numeric'] = df_corr['onboarding_completed'].astype(int)
+    
+    # Correlation between onboarding completion and feature usage
+    onboarding_corr = df_corr['onboarding_completed_numeric'].corr(df_corr['feature_x_usage_score'])
+    
+    # Correlation between days since launch and feature usage
+    days_usage_corr = df_corr['days_since_launch'].corr(df_corr['feature_x_usage_score'])
+    
+    # Statistical significance tests
+    onboarding_stat, onboarding_p = stats.pearsonr(df_corr['onboarding_completed_numeric'], df_corr['feature_x_usage_score'])
+    days_stat, days_p = stats.pearsonr(df_corr['days_since_launch'], df_corr['feature_x_usage_score'])
+    
+    # Group comparison for onboarding
+    completed_usage = df[df['onboarding_completed'] == True]['feature_x_usage_score']
+    not_completed_usage = df[df['onboarding_completed'] == False]['feature_x_usage_score']
+    
+    # T-test for onboarding groups
+    if len(not_completed_usage) > 0:
+        onboarding_ttest_stat, onboarding_ttest_p = stats.ttest_ind(completed_usage, not_completed_usage)
+    else:
+        onboarding_ttest_stat, onboarding_ttest_p = None, None
+    
+    correlation_results['onboarding_correlation'] = {
+        'correlation_coefficient': onboarding_corr,
+        'p_value': onboarding_p,
+        'completed_mean': completed_usage.mean(),
+        'completed_std': completed_usage.std(),
+        'not_completed_mean': not_completed_usage.mean() if len(not_completed_usage) > 0 else None,
+        'not_completed_std': not_completed_usage.std() if len(not_completed_usage) > 0 else None,
+        'ttest_statistic': onboarding_ttest_stat,
+        'ttest_p_value': onboarding_ttest_p
+    }
+    
+    correlation_results['days_launch_correlation'] = {
+        'correlation_coefficient': days_usage_corr,
+        'p_value': days_p
+    }
+    
+    return correlation_results
+
+# 3. UI Comparison Statistics
+def analyze_ui_comparison(df):
+    ui_comparison_stats = {}
+    
+    # Separate groups
+    old_ui_usage = df[df['ui_version'] == 'Old UI']['feature_x_usage_score']
+    new_ui_usage = df[df['ui_version'] == 'New UI']['feature_x_usage_score']
+    
+    # Descriptive statistics
+    ui_comparison_stats['old_ui_stats'] = {
+        'count': len(old_ui_usage),
+        'mean': old_ui_usage.mean(),
+        'median': old_ui_usage.median(),
+        'std': old_ui_usage.std(),
+        'min': old_ui_usage.min(),
+        'max': old_ui_usage.max()
+    }
+    
+    ui_comparison_stats['new_ui_stats'] = {
+        'count': len(new_ui_usage),
+        'mean': new_ui_usage.mean(),
+        'median': new_ui_usage.median(),
+        'std': new_ui_usage.std(),
+        'min': new_ui_usage.min(),
+        'max': new_ui_usage.max()
+    }
+    
+    # Statistical tests
+    # T-test (assuming normal distribution)
+    ttest_stat, ttest_p = stats.ttest_ind(old_ui_usage, new_ui_usage)
+    
+    # Mann-Whitney U test (non-parametric alternative)
+    mannwhitney_stat, mannwhitney_p = stats.mannwhitneyu(old_ui_usage, new_ui_usage, alternative='two-sided')
+    
+    ui_comparison_stats['statistical_tests'] = {
+        'ttest_statistic': ttest_stat,
+        'ttest_p_value': ttest_p,
+        'mannwhitney_statistic': mannwhitney_stat,
+        'mannwhitney_p_value': mannwhitney_p
+    }
+    
+    return ui_comparison_stats
+
+# 4. Usage Distribution Analysis
+def analyze_usage_distribution(df):
+    usage_distribution = {}
+    
+    usage_scores = df['feature_x_usage_score']
+    
+    # Basic distribution statistics
+    usage_distribution['basic_stats'] = {
+        'count': len(usage_scores),
+        'mean': usage_scores.mean(),
+        'median': usage_scores.median(),
+        'std': usage_scores.std(),
+        'min': usage_scores.min(),
+        'max': usage_scores.max(),
+        'skewness': stats.skew(usage_scores),
+        'kurtosis': stats.kurtosis(usage_scores)
+    }
+    
+    # Percentiles
+    percentiles = [10, 25, 50, 75, 90, 95, 99]
+    usage_distribution['percentiles'] = {f'{p}th_percentile': np.percentile(usage_scores, p) for p in percentiles}
+    
+    # Low usage categories
+    total_users = len(usage_scores)
+    
+    usage_distribution['low_usage_categories'] = {
+        'below_1': {
+            'count': (usage_scores < 1).sum(),
+            'percentage': (usage_scores < 1).mean() * 100
+        },
+        'below_3': {
+            'count': (usage_scores < 3).sum(),
+            'percentage': (usage_scores < 3).mean() * 100
+        },
+        'below_5': {
+            'count': (usage_scores < 5).sum(),
+            'percentage': (usage_scores < 5).mean() * 100
+        },
+        'zero_usage': {
+            'count': (usage_scores == 0).sum(),
+            'percentage': (usage_scores == 0).mean() * 100
+        }
+    }
+    
+    # Usage score scale analysis
+    usage_distribution['scale_analysis'] = {
+        'unique_values': sorted(usage_scores.unique()),
+        'value_counts': usage_scores.value_counts().sort_index().to_dict()
+    }
+    
+    return usage_distribution
+
+# Execute all analyses
+segmentation_stats = analyze_segmentation(cleaned_df)
+correlation_results = analyze_correlations(cleaned_df)
+ui_comparison_stats = analyze_ui_comparison(cleaned_df)
+usage_distribution = analyze_usage_distribution(cleaned_df)
+
+# ===== COMPREHENSIVE VISUALIZATIONS =====
+print("\n=== CREATING VISUALIZATIONS ===")
+
+# Performance optimization - sample if dataset is too large
+viz_df = cleaned_df.copy()
+if len(viz_df) > 50000:
+    viz_df = viz_df.sample(5000, random_state=42)
+
+# 1. Heatmap: Feature usage by plan-segment combinations
+print("Creating Plan-Segment Heatmap...")
+plan_segment_pivot = viz_df.groupby(['plan', 'segment'])['feature_x_usage_score'].mean().unstack(fill_value=0)
+
+fig1 = go.Figure(data=go.Heatmap(
+    z=plan_segment_pivot.values,
+    x=plan_segment_pivot.columns,
+    y=plan_segment_pivot.index,
+    colorscale='RdYlBu_r',
+    text=np.round(plan_segment_pivot.values, 2),
+    texttemplate="%{text}",
+    textfont={"size": 12},
+    colorbar=dict(title="Average Feature X Usage Score")
+))
+
+fig1.update_layout(
+    title="Feature X Usage by Plan Type and User Segment<br><sub>Darker red indicates lower adoption rates</sub>",
+    xaxis_title="User Segment",
+    yaxis_title="Plan Type",
+    height=400,
+    font=dict(size=12)
+)
+
+# Add annotations for lowest adoption areas
+min_usage = plan_segment_pivot.min().min()
+min_locations = np.where(plan_segment_pivot.values == min_usage)
+for i, j in zip(min_locations[0], min_locations[1]):
+    fig1.add_annotation(
+        x=j, y=i,
+        text=" Lowest",
+        showarrow=True,
+        arrowhead=2,
+        arrowcolor="red",
+        font=dict(color="red", size=10)
+    )
+
+plotly_figs.append(fig1)
+fig1.show()
+
+# 2. Scatter plot: Onboarding completion vs Feature usage
+print("Creating Onboarding Correlation Plot...")
+onboarding_numeric = viz_df['onboarding_completed'].astype(int)
+fig2 = px.scatter(
+    viz_df, 
+    x=onboarding_numeric, 
+    y='feature_x_usage_score',
+    color='onboarding_completed',
+    title="Feature X Usage vs Onboarding Completion Status",
+    labels={
+        'x': 'Onboarding Completed (0=No, 1=Yes)',
+        'feature_x_usage_score': 'Feature X Usage Score'
+    },
+    opacity=0.6
+)
+
+# Add trendline
+z = np.polyfit(onboarding_numeric, viz_df['feature_x_usage_score'], 1)
+p = np.poly1d(z)
+fig2.add_traces(go.Scatter(
+    x=[0, 1], 
+    y=p([0, 1]),
+    mode='lines',
+    name='Trendline',
+    line=dict(color='red', width=2, dash='dash')
+))
+
+# Add correlation annotation
+correlation_coeff = correlation_results['onboarding_correlation']['correlation_coefficient']
+fig2.add_annotation(
+    x=0.5, y=viz_df['feature_x_usage_score'].max() * 0.9,
+    text=f"Correlation: {correlation_coeff:.3f}",
+    showarrow=False,
+    bgcolor="white",
+    bordercolor="black",
+    borderwidth=1
+)
+
+fig2.update_layout(height=400)
+plotly_figs.append(fig2)
+fig2.show()
+
+# 3. Box plots: UI version comparison
+print("Creating UI Version Comparison...")
+fig3 = px.box(
+    viz_df,
+    x='ui_version',
+    y='feature_x_usage_score',
+    color='ui_version',
+    title="Feature X Usage Distribution by UI Version",
+    labels={'feature_x_usage_score': 'Feature X Usage Score'}
+)
+
+# Add statistical significance annotation
+old_ui_scores = viz_df[viz_df['ui_version'] == 'Old UI']['feature_x_usage_score']
+new_ui_scores = viz_df[viz_df['ui_version'] == 'New UI']['feature_x_usage_score']
+t_stat, p_value = stats.ttest_ind(old_ui_scores, new_ui_scores)
+
+fig3.add_annotation(
+    x=0.5, y=viz_df['feature_x_usage_score'].max() * 0.95,
+    text=f"T-test p-value: {p_value:.4f}<br>{'Significant' if p_value < 0.05 else 'Not significant'} difference",
+    showarrow=False,
+    bgcolor="lightyellow",
+    bordercolor="orange",
+    borderwidth=1,
+    xref="paper"
+)
+
+fig3.update_layout(height=400)
+plotly_figs.append(fig3)
+fig3.show()
+
+# 4. Scatter plot: Days since launch vs Feature usage
+print("Creating Launch Timing Analysis...")
+fig4 = px.scatter(
+    viz_df,
+    x='days_since_launch',
+    y='feature_x_usage_score',
+    title="Feature X Usage vs Days Since Launch",
+    labels={
+        'days_since_launch': 'Days Since Launch',
+        'feature_x_usage_score': 'Feature X Usage Score'
+    },
+    opacity=0.6,
+    trendline="ols"
+)
+
+# Add correlation annotation
+launch_correlation = correlation_results['days_launch_correlation']['correlation_coefficient']
+fig4.add_annotation(
+    x=viz_df['days_since_launch'].max() * 0.8,
+    y=viz_df['feature_x_usage_score'].max() * 0.9,
+    text=f"Correlation: {launch_correlation:.3f}",
+    showarrow=False,
+    bgcolor="white",
+    bordercolor="black",
+    borderwidth=1
+)
+
+fig4.update_layout(height=400)
+plotly_figs.append(fig4)
+fig4.show()
+
+# 5. Usage distribution histogram and cumulative distribution
+print("Creating Usage Distribution Analysis...")
+fig5 = make_subplots(
+    rows=2, cols=1,
+    subplot_titles=('Usage Score Distribution', 'Cumulative Distribution'),
+    vertical_spacing=0.12
+)
+
+# Histogram
+fig5.add_trace(
+    go.Histogram(
+        x=viz_df['feature_x_usage_score'],
+        nbinsx=20,
+        name='Usage Distribution',
+        opacity=0.7
+    ),
+    row=1, col=1
+)
+
+# Add threshold lines for low usage (scores below 3 and 5)
+low_usage_3 = usage_distribution['low_usage_categories']['below_3']['percentage']
+low_usage_5 = usage_distribution['low_usage_categories']['below_5']['percentage']
+
+fig5.add_vline(x=3, line_dash="dash", line_color="red", row=1, col=1)
+fig5.add_vline(x=5, line_dash="dash", line_color="orange", row=1, col=1)
+
+# Cumulative distribution
+sorted_scores = np.sort(viz_df['feature_x_usage_score'])
+cumulative_pct = np.arange(1, len(sorted_scores) + 1) / len(sorted_scores) * 100
+
+fig5.add_trace(
+    go.Scatter(
+        x=sorted_scores,
+        y=cumulative_pct,
+        mode='lines',
+        name='Cumulative %',
+        line=dict(color='blue', width=2)
+    ),
+    row=2, col=1
+)
+
+fig5.add_vline(x=3, line_dash="dash", line_color="red", row=2, col=1)
+fig5.add_vline(x=5, line_dash="dash", line_color="orange", row=2, col=1)
+
+# Add annotations for low usage percentages
+fig5.add_annotation(
+    x=3, y=50,
+    text=f"<3: {low_usage_3:.1f}%",
+    showarrow=True,
+    arrowhead=2,
+    bgcolor="red",
+    font=dict(color="white"),
+    row=1, col=1
+)
+
+fig5.add_annotation(
+    x=5, y=70,
+    text=f"<5: {low_usage_5:.1f}%",
+    showarrow=True,
+    arrowhead=2,
+    bgcolor="orange",
+    font=dict(color="white"),
+    row=1, col=1
+)
+
+fig5.update_layout(
+    title="Feature X Usage Score Distribution Analysis<br><sub>Red line: Score < 3 (Non-adoption), Orange line: Score < 5 (Light usage)</sub>",
+    height=600,
+    showlegend=False
+)
+
+fig5.update_xaxes(title_text="Feature X Usage Score", row=2, col=1)
+fig5.update_yaxes(title_text="Count", row=1, col=1)
+fig5.update_yaxes(title_text="Cumulative Percentage", row=2, col=1)
+
+plotly_figs.append(fig5)
+fig5.show()
+
+# ===== COMPREHENSIVE RESULTS SUMMARY =====
+print("\n" + "="*60)
+print("FEATURE X USAGE ANALYSIS - COMPREHENSIVE RESULTS")
+print("="*60)
+
+print("\n1. SEGMENTATION ANALYSIS:")
+print("Lowest Adoption Rate Combinations:")
+for combo in segmentation_stats['lowest_adoption_combinations']:
+    print(f"   {combo['plan']} - {combo['segment']}: Mean Usage = {combo['mean']:.2f} (n={combo['count']})")
+
+print(f"\n2. CORRELATION ANALYSIS:")
+print(f"Onboarding Completion vs Feature Usage:")
+print(f"   Correlation: {correlation_results['onboarding_correlation']['correlation_coefficient']:.3f}")
+print(f"   P-value: {correlation_results['onboarding_correlation']['p_value']:.3f}")
+print(f"   Completed Mean: {correlation_results['onboarding_correlation']['completed_mean']:.2f}")
+if correlation_results['onboarding_correlation']['not_completed_mean'] is not None:
+    print(f"   Not Completed Mean: {correlation_results['onboarding_correlation']['not_completed_mean']:.2f}")
+
+print(f"\nDays Since Launch vs Feature Usage:")
+print(f"   Correlation: {correlation_results['days_launch_correlation']['correlation_coefficient']:.3f}")
+print(f"   P-value: {correlation_results['days_launch_correlation']['p_value']:.3f}")
+
+print(f"\n3. UI VERSION COMPARISON:")
+print(f"   Old UI: Mean = {ui_comparison_stats['old_ui_stats']['mean']:.2f}, n = {ui_comparison_stats['old_ui_stats']['count']}")
+print(f"   New UI: Mean = {ui_comparison_stats['new_ui_stats']['mean']:.2f}, n = {ui_comparison_stats['new_ui_stats']['count']}")
+print(f"   T-test p-value: {ui_comparison_stats['statistical_tests']['ttest_p_value']:.3f}")
+print(f"   Mann-Whitney U p-value: {ui_comparison_stats['statistical_tests']['mannwhitney_p_value']:.3f}")
+
+print(f"\n4. USAGE DISTRIBUTION:")
+print(f"   Overall Mean: {usage_distribution['basic_stats']['mean']:.2f}")
+print(f"   Median: {usage_distribution['basic_stats']['median']:.2f}")
+print(f"   Standard Deviation: {usage_distribution['basic_stats']['std']:.2f}")
+print(f"Low Usage Categories:")
+for category, stats in usage_distribution['low_usage_categories'].items():
+    print(f"   {category.replace('_', ' ').title()}: {stats['count']} users ({stats['percentage']:.1f}%)")
+
+print(f"\n5. KEY INSIGHTS:")
+lowest_combo = segmentation_stats['lowest_adoption_combinations'][0]
+print(f"   Lowest adoption: {lowest_combo['plan']} - {lowest_combo['segment']} users ({lowest_combo['mean']:.2f} avg score)")
+print(f"   Onboarding impact: {'Strong' if abs(correlation_results['onboarding_correlation']['correlation_coefficient']) > 0.3 else 'Moderate' if abs(correlation_results['onboarding_correlation']['correlation_coefficient']) > 0.1 else 'Weak'} correlation ({correlation_results['onboarding_correlation']['correlation_coefficient']:.3f})")
+print(f"   UI version impact: {'Significant' if ui_comparison_stats['statistical_tests']['ttest_p_value'] < 0.05 else 'Not significant'} difference (p={ui_comparison_stats['statistical_tests']['ttest_p_value']:.4f})")
+print(f"   Launch timing effect: {'Positive' if correlation_results['days_launch_correlation']['correlation_coefficient'] > 0 else 'Negative'} correlation ({correlation_results['days_launch_correlation']['correlation_coefficient']:.3f})")
+print(f"   Non-adoption rate (score <3): {usage_distribution['low_usage_categories']['below_3']['percentage']:.1f}%")
+print(f"   Light usage rate (score <5): {usage_distribution['low_usage_categories']['below_5']['percentage']:.1f}%")
+
+print(f"\nTotal Plotly figures created: {len(plotly_figs)}")
+print("Analysis complete!")</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+
+        <div class="section">
+                <h2>Conclusion</h2>
+            <div class="conclusion-content">
+                <p><strong>Feature X is experiencing a critical adoption failure driven by three interconnected product issues that require immediate intervention.</strong></p>
+
+<p><strong>Root Cause: Triple Product Failure</strong></p>
+<p>The low adoption isn't due to lack of user interest but rather systematic product failures:</p>
+<ul>
+<li><strong>Onboarding Crisis</strong>: Users who complete onboarding use Feature X 4x more, but too many users aren't completing or benefiting from the onboarding process</li>
+<li><strong>UI Regression</strong>: The new UI has made Feature X significantly less discoverable/usable than the old version (usage dropped from 3.15 to 1.64)</li>
+<li><strong>Segment Abandonment</strong>: Free tier users, especially new ones, have been effectively abandoned with near-zero adoption rates</li>
+</ul>
+
+<p><strong>Key Takeaways</strong></p>
+<ul>
+<li>50% zero usage rate indicates a fundamental product experience problem, not a feature problem</li>
+<li>The new UI launch has actively harmed Feature X adoption - this is a regression, not progress</li>
+<li>Onboarding completion is the strongest predictor of feature success, making it the highest-leverage intervention point</li>
+<li>Free Plan users represent a massive untapped opportunity (337 users with minimal engagement)</li>
+</ul>
+
+<p><strong>Recommended Next Steps</strong></p>
+<ul>
+<li><strong>Emergency UI Audit</strong> (Week 1): Conduct immediate usability testing to identify what changed between old and new UI that's blocking Feature X access</li>
+<li><strong>Onboarding Redesign</strong> (Weeks 2-4): Rebuild the onboarding flow with Feature X as a core highlight, not an afterthought</li>
+<li><strong>Free Tier Rescue Campaign</strong> (Month 2): Launch targeted re-engagement specifically for the 337 Free Plan users who are currently ignored</li>
+<li><strong>Success Metrics</strong>: Target reducing zero-usage from 50% to under 25% within 90 days through these coordinated interventions</li>
+</ul>
+
+<p>This is a solvable problem - the data shows clear paths to improvement through onboarding, UI fixes, and targeted user segment strategies.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page footer for PDF -->
+        <div class="page-footer"></div>
+    </body>
+    </html>
